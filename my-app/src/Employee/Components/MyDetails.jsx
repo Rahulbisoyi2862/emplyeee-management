@@ -1,8 +1,12 @@
+import React, { useState } from 'react';
 import { useOutletContext } from "react-router-dom";
+import { User, Mail, IdCard, Briefcase, DollarSign, Phone, FileText, CreditCard } from 'lucide-react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Don't forget to import the styles
 
 const MyDetails = () => {
-  const context = useOutletContext();  
-  // console.log("Context Data:", context); // Debugging ke liye
+  const context = useOutletContext();
+  const [selectedFile, setSelectedFile] = useState(null);
 
   if (!context || !context.users || !context.users.user) {
     return (
@@ -12,42 +16,157 @@ const MyDetails = () => {
     );
   }
 
-  const { user } = context.users;  // ✅ Correctly extracting actual user data
+  const { user } = context.users;
+  
+  // Handle file selection
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+
+    // Check file size: 150KB (150 * 1024 bytes)
+    if (file && file.size > 150 * 1024) {
+      toast.error("File size exceeds 150KB. Please upload a smaller file.");
+      setSelectedFile(null);  // Clear the selected file
+    } else {
+      setSelectedFile(file);
+    }
+  };
+
+  // Handle file upload using fetch
+  const handleFileUpload = async () => {
+    if (!selectedFile) {
+      toast.error("Please select a file to upload.");  // Error message
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('imageProfile', selectedFile);
+    formData.append("id", user.id);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/upload/profile', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Upload success:', data);
+        toast.success('Your Profile Photo changed successfully!'); // Success message
+      } else {
+        console.error('Upload failed:', response.statusText);
+        toast.error('Your Profile Photo change failed.'); // Error message
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      toast.error('File upload failed.'); // Error message
+    }
+  };
 
   return (
-    <div className="max-w-lg mx-auto bg-gray-900 text-gray-200 shadow-lg rounded-lg p-8 border border-gray-700">
-      <h2 className="text-3xl font-semibold mb-6 border-b border-gray-700 pb-3 text-center tracking-wide">
-        My Details
-      </h2>
-      <div className="space-y-5 text-lg">
-        <p>
-          <span className="font-medium text-blue-400">👤 Name:</span> {user.name || "N/A"}
-        </p>
-        <p>
-          <span className="font-medium text-blue-400">📧 Email:</span> {user.email || "N/A"}
-        </p>
-        <p>
-          <span className="font-medium text-blue-400">🆔 UI ID:</span> {user.id || "N/A"}
-        </p>
-        <p>
-          <span className="font-medium text-green-400">🏢 Position:</span> {user.position || "N/A"}
-        </p>
-        <p>
-          <span className="font-medium text-yellow-400">💰 PL Balance:</span> {user.plBalance || "N/A"}
-        </p>
-        <p>
-          <span className="font-medium text-yellow-400">💵 CL Balance:</span> {user.clBalance || "N/A"}
-        </p>
-        <p>
-          <span className="font-medium text-purple-400">📱 Phone:</span> {user.phone || "N/A"}
-        </p>
-        <p>
-          <span className="font-medium text-orange-400">📜 Aadhar:</span> {user.adharCard || "N/A"}
-        </p>
-        <p>
-          <span className="font-medium text-red-400">🪪 PAN Card:</span> {user.panCard || "N/A"}
-        </p>
+    <div className="w-full max-w-[90%] md:max-w-[1200px] mx-auto bg-white text-gray-900 shadow-sm p-6 md:p-8 rounded-md overflow-auto">
+      <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-center text-red-600">My Details</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+        {/* Name */}
+        <div className="flex items-center space-x-2">
+          <User className="text-red-600" size={20} />
+          <span className="font-medium text-gray-800">Name:</span>
+          <span className="text-gray-600">{user.name || "N/A"}</span>
+        </div>
+
+        {/* Email */}
+        <div className="flex items-center space-x-2">
+          <Mail className="text-red-600" size={20} />
+          <span className="font-medium text-gray-800">Email:</span>
+          <span className="text-gray-600">{user.email || "N/A"}</span>
+        </div>
+
+        {/* UI ID */}
+        <div className="flex items-center space-x-2">
+          <IdCard className="text-red-600" size={20} />
+          <span className="font-medium text-gray-800">UI ID:</span>
+          <span className="text-gray-600">{user.id || "N/A"}</span>
+        </div>
+
+        {/* Position */}
+        <div className="flex items-center space-x-2">
+          <Briefcase className="text-red-600" size={20} />
+          <span className="font-medium text-gray-800">Position:</span>
+          <span className="text-gray-600">{user.Position || "N/A"}</span>
+        </div>
+
+        {/* PL Balance */}
+        <div className="flex items-center space-x-2">
+          <DollarSign className="text-green-600" size={20} />
+          <span className="font-medium text-gray-800">PL Balance:</span>
+          <span className="text-gray-600">{user.plBalance || "N/A"}</span>
+        </div>
+
+        {/* CL Balance */}
+        <div className="flex items-center space-x-2">
+          <DollarSign className="text-green-600" size={20} />
+          <span className="font-medium text-gray-800">CL Balance:</span>
+          <span className="text-gray-600">{user.clBalance || "N/A"}</span>
+        </div>
+
+        {/* Phone */}
+        <div className="flex items-center space-x-2">
+          <Phone className="text-purple-500" size={20} />
+          <span className="font-medium text-gray-800">Phone:</span>
+          <span className="text-gray-600">{user.phone || "N/A"}</span>
+        </div>
+
+        {/* Aadhar */}
+        <div className="flex items-center space-x-2">
+          <FileText className="text-yellow-500" size={20} />
+          <span className="font-medium text-gray-800">Aadhar:</span>
+          <a href={`http://localhost:5000/uploads/${user.adharCard}`} target="_blank" rel="noopener noreferrer">
+            <img
+              src={`http://localhost:5000/uploads/${user.adharCard}`}
+              alt="Aadhar Card"
+              className="h-20 w-20 object-cover mt-2"
+            />
+          </a>
+        </div>
+
+        {/* PAN Card */}
+        <div className="flex items-center space-x-2">
+          <CreditCard className="text-orange-500" size={20} />
+          <span className="font-medium text-gray-800">PAN Card:</span>
+          <a href={`http://localhost:5000/uploads/${user.panCard}`} target="_blank" rel="noopener noreferrer">
+            <img
+              src={`http://localhost:5000/uploads/${user.panCard}`}
+              alt="PAN Card"
+              className="h-20 w-20 object-cover mt-2"
+            />
+          </a>
+        </div>
+
+        {/* File Upload Section */}
+        <div className="flex flex-col space-y-4 mt-6">
+          {/* File Input */}
+          <div className="flex items-center space-x-2">
+            <input
+              type="file"
+              onChange={handleFileChange}
+              accept="image/*"
+              className="text-sm border rounded p-2"
+            />
+          </div>
+
+          {/* Upload Button */}
+          <button
+            type="button"
+            onClick={handleFileUpload}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+          >
+            Upload Image
+          </button>
+        </div>
       </div>
+
+      {/* Toastify container */}
+      <ToastContainer />
     </div>
   );
 };

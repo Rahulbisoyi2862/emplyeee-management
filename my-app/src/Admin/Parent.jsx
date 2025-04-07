@@ -46,7 +46,7 @@ const Parent = () => {
   return (
     <div className="flex flex-col h-screen bg-gray-100 text-black">
       {/* Header */}
-      <Header darkMode={darkMode} />
+      <Header />
 
       {/* Main layout */}
       <div className="flex flex-1 overflow-hidden relative">
@@ -63,7 +63,6 @@ const Parent = () => {
           setSelectedTab={setSelectedTab}
           isOpen={isSidebarOpen}
           toggleSidebar={toggleSidebar}
-          darkMode={darkMode}
         />
 
         {/* Main Content */}

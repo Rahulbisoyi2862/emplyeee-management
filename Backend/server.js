@@ -10,6 +10,7 @@ const updateArchive = require("./routes/updateArchive")
 const passwordChange = require("./routes/passwordChange")
 const leaveTarget = require("./routes/leaveTarget");
 const cors = require("cors");
+const profilePhoto = require("./routes/profilePhoto");
 
 connectDB();
 const app = express();
@@ -19,6 +20,9 @@ app.use(cors({
   credentials: true, // Cookies allow karne ke liye,
   methods: ['GET', 'POST'],
 }));
+
+app.use("/uploads", express.static("uploads"));
+
 
 app.use(express.json());
 app.use(cookieParser());
@@ -31,6 +35,7 @@ app.use("/api/target", target)
 app.use("/api/target", updateArchive)
 app.use("/api/password/", passwordChange)
 app.use("/api/leave", leaveTarget)
+app.use("/api/upload", profilePhoto)
 
 
 const PORT = process.env.PORT || 5000;

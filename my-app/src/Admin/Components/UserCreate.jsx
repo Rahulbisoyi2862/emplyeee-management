@@ -1,60 +1,105 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
+
+const MAX_FILE_SIZE = 150 * 1024; // 150KB
+
 const UserCreate = () => {
-  const [bmessage, setBmessage] = useState("");
+  const panRef = useRef();
+  const adharRef = useRef();
+  const otherRef = useRef();
+
   const [formData, setFormData] = useState({
     phone: "",
     name: "",
     email: "",
-    panCard: "",
-    adharCard: "",
+    panCard: null,
+    adharCard: null,
     password: "",
     plBalance: "",
     clBalance: "",
     Position: "",
-    otherFile: "",
+    otherFile: [],
     role: ""
   });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: files ? files[0] : value,
-    });
-    setBmessage("");
+
+    if (files) {
+      if (name === "otherFile") {
+        const validFiles = [];
+        for (let file of files) {
+          if (file.size > MAX_FILE_SIZE) {
+            toast.error(`${file.name} is too large (max 150KB)`);
+          } else {
+            validFiles.push(file);
+          }
+        }
+        setFormData(prev => ({ ...prev, [name]: validFiles }));
+      } else {
+        const file = files[0];
+        if (file && file.size > MAX_FILE_SIZE) {
+          toast.error(`${file.name} is too large (max 150KB)`);
+          return;
+        }
+        setFormData(prev => ({ ...prev, [name]: file }));
+      }
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:5000/api/user/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(formData),
+    const form = new FormData();
+
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key === "otherFile" && value?.length > 0) {
+        for (let file of value) {
+          form.append("otherFile", file);
+        }
+      } else {
+        form.append(key, value);
+      }
     });
 
-    const data = await response.json();
-    if (response.status === 400) return toast.error(data.message);
-    if (response.ok) {
-      setFormData({
-        phone: "",
-        name: "",
-        email: "",
-        panCard: "",
-        adharCard: "",
-        password: "",
-        plBalance: "",
-        clBalance: "",
-        Position: "",
-        otherFile: "",
-        role: ""
+    try {
+      const response = await fetch("http://localhost:5000/api/user/create", {
+        method: "POST",
+        credentials: "include",
+        body: form,
       });
-      return toast.success(data.message);
+
+      const data = await response.json();
+     console.log(data)
+      if (response.status === 400) return toast.error(data.message);
+
+      if (response.ok) {
+        setFormData({
+          phone: "",
+          name: "",
+          email: "",
+          panCard: null,
+          adharCard: null,
+          password: "",
+          plBalance: "",
+          clBalance: "",
+          Position: "",
+          otherFile: [],
+          role: ""
+        });
+
+        // Reset file inputs
+        panRef.current.value = "";
+        adharRef.current.value = "";
+        otherRef.current.value = "";
+
+       return toast.success(data.message);
+      }
+    } catch (error) {
+      toast.error("Something went wrong.");
     }
   };
 
@@ -65,110 +110,86 @@ const UserCreate = () => {
           Create New User
         </h2>
 
-        {bmessage && (
-          <p className="text-center mb-4 p-2 text-white bg-red-600 rounded-md">
-            {bmessage}
-          </p>
-        )}
-
         <form onSubmit={handleSubmit} className="space-y-6 bg-white p-10 rounded-lg shadow-xl border border-gray-200">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone"
-              className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full"
-            />
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Name"
-              className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full"
-            />
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full"
-            />
-            <input
-              type="file"
-              name="panCard"
-              onChange={handleChange}
-              className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full"
-            />
-            <input
-              type="file"
-              name="adharCard"
-              onChange={handleChange}
-              className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full"
-            />
-            <input
-              type="file"
-              name="otherFile"
-              onChange={handleChange}
-              className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full"
-            />
-            <input
-              type="text"
-              name="Position"
-              value={formData.Position}
-              onChange={handleChange}
-              placeholder="Position"
-              className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full"
-            />
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Password"
-              className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full"
-            />
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full"
-            >
-              <option value="">Select Role</option>
-              <option value="employee">Employee</option>
-              <option value="usbadmin">USB Admin</option>
-              <option value="admin">Admin</option>
-            </select>
+            <div>
+              <label className="block mb-1 font-medium text-red-700">Phone</label>
+              <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone"
+                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium text-red-700">Name</label>
+              <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name"
+                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium text-red-700">Email</label>
+              <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email"
+                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium text-red-700">PAN Card</label>
+              <input type="file" name="panCard" ref={panRef} onChange={handleChange}
+                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium text-red-700">Aadhaar Card</label>
+              <input type="file" name="adharCard" ref={adharRef} onChange={handleChange}
+                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium text-red-700">Other Files</label>
+              <input type="file" name="otherFile" ref={otherRef} onChange={handleChange} multiple
+                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium text-red-700">Position</label>
+              <input type="text" name="Position" value={formData.Position} onChange={handleChange} placeholder="Position"
+                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium text-red-700">Password</label>
+              <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password"
+                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium text-red-700">Role</label>
+              <select name="role" value={formData.role} onChange={handleChange}
+                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full">
+                <option value="">Select Role</option>
+                <option value="user">user</option>
+                <option value="subadmin">SUB Admin</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
           </div>
 
           <h3 className="text-lg font-bold mt-6 text-red-700">Leave Balance</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <input
-              type="number"
-              name="plBalance"
-              value={formData.plBalance}
-              onChange={handleChange}
-              placeholder="PL Balance"
-              className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full"
-            />
-            <input
-              type="number"
-              name="clBalance"
-              value={formData.clBalance}
-              onChange={handleChange}
-              placeholder="CL Balance"
-              className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full"
-            />
+            <div>
+              <label className="block mb-1 font-medium text-red-700">PL Balance</label>
+              <input type="number" name="plBalance" value={formData.plBalance} onChange={handleChange} placeholder="PL Balance"
+                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-medium text-red-700">CL Balance</label>
+              <input type="number" name="clBalance" value={formData.clBalance} onChange={handleChange} placeholder="CL Balance"
+                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+            </div>
           </div>
 
           <div className="flex justify-center">
-            <button
-              type="submit"
-              className="mt-6 p-3 bg-green-600 text-white font-bold rounded-md w-full sm:w-auto px-10 hover:bg-green-700 transition"
-            >
+            <button type="submit"
+              className="mt-6 p-3 bg-green-600 text-white font-bold rounded-md w-full sm:w-auto px-10 hover:bg-green-700 transition">
               Create User
             </button>
           </div>

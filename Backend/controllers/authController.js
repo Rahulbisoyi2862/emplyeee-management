@@ -12,8 +12,8 @@ const authController = async (req, res, next) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-  
-  
+
+
   const isAdmin = user.role === 'admin';
   if (!isAdmin) {
     const tokenUser = jwt.sign({ id: user._id, role: user.role }, process.env.SECRET_KEY, { expiresIn: "2h" });

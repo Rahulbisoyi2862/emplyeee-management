@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   LayoutDashboard,
   Users,
@@ -11,7 +10,10 @@ import {
 } from "lucide-react";
 import { NavLink } from "react-router";
 
-const Sidebar = ({ setSelectedTab, isOpen, toggleSidebar }) => (
+const Sidebar = ({ setSelectedTab, isOpen, toggleSidebar }) => {
+  
+  return(
+  
   <div
     className={`fixed lg:relative top-0 left-0 h-full bg-white border-r shadow-md p-4 space-y-4 transition-transform ${
       isOpen ? "translate-x-0" : "-translate-x-full"
@@ -116,6 +118,6 @@ const Sidebar = ({ setSelectedTab, isOpen, toggleSidebar }) => (
       </NavLink>
     </ul>
   </div>
-);
+);}
 
 export default Sidebar;

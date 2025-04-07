@@ -24,6 +24,7 @@ import { createBrowserRouter, RouterProvider,Navigate } from "react-router-dom";
 import EmployeeDetail from "../Components/EmployeeDetail";
 import EditArchive from "../Components/EditArchive";
 import DashboardPage from "../Components/DashboardPage";
+import WelcomePage from "../../Welcome/WelcomePage";
 
 function AppRouter() {
 
@@ -32,6 +33,7 @@ function AppRouter() {
       path: "/",
       element:<Parent/>,
       children: [
+        {path:"",element:<WelcomePage/>},
         {path:"DashboardPage",element:<DashboardPage/>},
         { path: "employee-target", element: <EmployeeTarget /> },
         { path: "user-create", element: <UserCreate /> },

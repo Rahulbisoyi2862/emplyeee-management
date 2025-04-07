@@ -8,6 +8,16 @@ const router = express.Router();
 
 router.post("/login",authController);
 
+router.get("/logout/user",(req,res)=>{
+  res.clearCookie('tokenUser');  
+ return res.status(200).send('Logged out successfully');
+})
+
+router.get("/logout/admin",(req,res)=>{
+  res.clearCookie('token');  
+ return res.status(200).send('Logged out successfully');
+})
+
 router.get("/admin",verifyToken,(req,res)=>{
   return  res.json({ message: "Welcome!", user: req.user });
 })
