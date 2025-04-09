@@ -3,12 +3,14 @@ const User = require("../models/User"); // Import User model
 
 const target = async (req, res) => {
     try {
-        const { targetType, targetValue, archive, date, email } = req.body;
-
+        const { targetType,targetValue,date,counter} = req.body;
+        const id=req.params.id
+       
+         console.log(targetType)
         // ✅ Check if Email Exists in User Model
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ id });
         if (!user) {
-            return res.status(404).json({ error: "⚠️ User not found! Enter a valid email." });
+            return res.status(404).json({ error: "⚠️ User not found!" });
         }
 
         // ✅ Block Admin Emails
@@ -17,11 +19,11 @@ const target = async (req, res) => {
         }
 
         // ✅ Validation Checks
-        if (!targetType || !targetValue || !archive || !date || !email) {
+        if (!targetType || !targetValue || !date || !id ||!counter) {
             return res.status(400).json({ error: "⚠️ All fields are required!" });
         }
-        if (!["daily", "monthly"].includes(targetType)) {
-            return res.status(400).json({ error: "⚠️ Invalid target type! Choose 'daily' or 'monthly'." });
+        if (!["yearly", "monthly"].includes(targetType)) {
+            return res.status(400).json({ error: "⚠️ Invalid target type! Choose 'yearly' or 'monthly'." });
         }
         if (isNaN(targetValue) || targetValue <= 0) {
             return res.status(400).json({ error: "⚠️ Target value must be a positive number!" });
@@ -37,22 +39,23 @@ const target = async (req, res) => {
         //     minute: "2-digit",
         //     second: "2-digit",
         // });
+
         const localDate = new Date(date).toLocaleDateString("en-CA", {
             year: "numeric",
             month: "2-digit",
             day: "2-digit",
         });
 
-        console.log(targetType, targetValue, archive, localDate, email);
-        const archiveNumber = parseFloat(archive);
+        
+        const targetNumber = parseFloat(targetValue);
 
         // ✅ Save to Database
         const userTargetData = await userTarget.create({
             targetType,
-            targetValue,
-            archive: archiveNumber,
+            targetValue:targetNumber,
+            targetCounter:counter,
             date: localDate, // Store Local Date
-            email,
+            id,
         });
 
         res.json({ message: "✅ Target added successfully!", target: userTargetData });
@@ -60,6 +63,7 @@ const target = async (req, res) => {
         console.error("❌ Error adding target:", error);
         res.status(500).json({ error: "⚠️ Internal Server Error" });
     }
+  
 };
 
 module.exports = target;

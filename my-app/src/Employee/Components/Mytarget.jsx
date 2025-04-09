@@ -5,38 +5,52 @@ const MyTarget = () => {
   const context = useOutletContext();
 
   if (!context || !context.users || !context.users.user || !context.target) {
-    return <p className="text-center text-gray-400">Loading user data...</p>;
+    return <p className="text-center text-red-700 text-lg animate-pulse">Loading user data...</p>;
   }
 
   const { user } = context.users;
   const target = context.target;
 
   return (
-    <div className="max-w-lg mx-auto bg-gray-900 text-white shadow-xl rounded-xl p-6 border border-gray-700">
-      <h2 className="text-2xl font-bold text-white mb-4 border-b border-gray-600 pb-2 text-center">
+    <div className="max-w-2xl mx-auto mt-24 bg-white text-gray-800 shadow-2xl rounded-2xl p-8 border border-red-700">
+      <h2 className="text-3xl font-bold text-red-700 mb-6 text-center shadow-md p-2 rounded-md">
         🎯 My Goals
       </h2>
 
       {/* Target Data */}
-      <ul className="space-y-3">
-        <li className="p-3 bg-blue-500 rounded-lg shadow-md">
-          <span className="font-semibold">📌 Target Type:</span> {target.targetType || "N/A"}
+      <ul className="space-y-4">
+        <li className="p-4 rounded-xl border border-red-700 bg-white shadow-lg">
+          <span className="font-semibold text-red-700">📌 Target Type:</span>{" "}
+          <span>{target.targetType || "N/A"}</span>
         </li>
-        <li className="p-3 bg-green-500 rounded-lg shadow-md">
-          <span className="font-semibold">🎯 Target Value:</span> {target.targetValue || "N/A"}%
+        <li className="p-4 rounded-xl border border-red-700 bg-white shadow-lg">
+          <span className="font-semibold text-red-700">🎯 Target Value:</span>{" "}
+          <span>{target.targetValue || "N/A"} Gm</span>
         </li>
-        <li className="p-3 bg-red-500 rounded-lg shadow-md">
-          <span className="font-semibold">📅 Target Date:</span> {target.date || "N/A"}
+        <li className="p-4 rounded-xl border border-red-700 bg-white shadow-lg">
+          <span className="font-semibold text-red-700">📅 Target Date:</span>{" "}
+          <span>{target.date || "N/A"}</span>
         </li>
-        <li className="p-3 bg-yellow-500 rounded-lg shadow-md">
-          <span className="font-semibold">📦 Archive:</span> {target.archive || "N/A"}%
+        <li className="p-4 rounded-xl border border-red-700 bg-white shadow-lg">
+          <span className="font-semibold text-red-700">📦 Counter:</span>{" "}
+          <span>{target.targetCounter || "N/A"}</span>
+        </li>
+        <li className="p-4 rounded-xl border border-red-700 bg-white shadow-lg">
+          <span className="font-semibold text-red-700">📦 Archive:</span>{" "}
+          <span>{target.archive || "N/A"} Gm</span>
         </li>
       </ul>
 
       {/* Extra Info */}
-      <div className="mt-6 border-t border-gray-600 pt-4 text-sm">
-        <p><span className="font-semibold">📧 Email:</span> {user.email || "N/A"}</p>
-        <p><span className="font-semibold">📞 Phone:</span> {user.phone || "N/A"}</p>
+      <div className="mt-8 border-t border-red-700 pt-4 text-base space-y-1">
+        <p>
+          <span className="font-semibold text-red-700">📧 Email:</span>{" "}
+          <span>{user.email || "N/A"}</span>
+        </p>
+        <p>
+          <span className="font-semibold text-red-700">📞 Phone:</span>{" "}
+          <span>{user.phone || "N/A"}</span>
+        </p>
       </div>
     </div>
   );

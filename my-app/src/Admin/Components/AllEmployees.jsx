@@ -27,6 +27,29 @@ const AllEmployees = () => {
     getUsers();
   }, []);
 
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this employee?");
+    if (!confirmDelete) return;
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/user/delete/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        setAllEmp((prev) => prev.filter((emp) => emp.id !== id));
+        alert("Employee deleted successfully");
+      } else {
+        alert(result.message || "Error deleting employee");
+      }
+    } catch (err) {
+      console.error("Delete error:", err.message);
+    }
+  };
+
   const filteredEmployees = allemp.filter(
     (employee) =>
       employee?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -38,7 +61,7 @@ const AllEmployees = () => {
     <div className="p-4 min-h-screen bg-white text-gray-900">
       <h1 className="text-3xl font-semibold mb-6 text-red-700">All Employees</h1>
 
-      {/* ✅ Search Bar */}
+      {/* Search Bar */}
       <div className="mb-6">
         <input
           type="text"
@@ -49,14 +72,14 @@ const AllEmployees = () => {
         />
       </div>
 
-      {/* ✅ Loading Animation */}
+      {/* Loading */}
       {loading ? (
         <div className="flex justify-center items-center min-h-[50vh]">
           <div className="animate-spin h-8 w-8 border-4 border-green-500 border-t-transparent rounded-full"></div>
         </div>
       ) : (
         <div className="w-full overflow-x-auto">
-          {/* ✅ Mobile View - Cards */}
+          {/* Mobile View */}
           <div className="sm:hidden">
             {filteredEmployees.length > 0 ? (
               filteredEmployees.map((employee) => (
@@ -80,6 +103,12 @@ const AllEmployees = () => {
                     >
                       Edit
                     </button>
+                    <button
+                      onClick={() => handleDelete(employee.id)}
+                      className="bg-gray-800 text-white px-4 py-2 rounded-lg w-full hover:bg-black transition"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               ))
@@ -88,7 +117,7 @@ const AllEmployees = () => {
             )}
           </div>
 
-          {/* ✅ Desktop View - Full Width Table */}
+          {/* Desktop Table */}
           <div className="hidden sm:block">
             <table className="w-full border-collapse border border-red-700">
               <thead className="bg-red-700 text-white">
@@ -122,6 +151,12 @@ const AllEmployees = () => {
                             className="bg-green-600 text-white px-4 py-2 rounded-md transition hover:bg-green-700"
                           >
                             Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(employee.id)}
+                            className="bg-gray-800 text-white px-4 py-2 rounded-md transition hover:bg-black"
+                          >
+                            Delete
                           </button>
                         </div>
                       </td>

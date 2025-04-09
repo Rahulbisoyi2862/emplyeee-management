@@ -27,7 +27,7 @@ const ParentEmployee = () => {
                     setUnauthorized(true); // ❌ no navigate
                 } else {
                     setUsers(data);
-                    console.log(data)
+                    console.log(data,"he")
                 }
             } catch (error) {
                 console.error("Error:", error.message);

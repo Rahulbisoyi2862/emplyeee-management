@@ -65,8 +65,8 @@ const MyDetails = () => {
   return (
     <div className="w-full max-w-[90%] md:max-w-[1200px] mx-auto bg-white text-gray-900 shadow-sm p-6 md:p-8 rounded-md overflow-auto">
       <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-center text-red-600">My Details</h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+  <hr />
+      <div className="grid mt-2 grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
         {/* Name */}
         <div className="flex items-center space-x-2">
           <User className="text-red-600" size={20} />

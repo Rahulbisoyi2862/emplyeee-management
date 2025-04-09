@@ -41,64 +41,62 @@ const LeaveTarget = () => {
       : leaveData.filter((leave) => leave.status.toLowerCase() === filter.toLowerCase());
 
   return (
-    <div className="p-4 sm:p-6 bg-white shadow-md rounded-lg max-w-3xl mx-auto my-4 sm:my-8">
-      {/* ✅ Leave Balance Section */}
-      <div className="mb-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Leave Balance</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-          <div className="bg-blue-50 p-4 rounded shadow-sm">
-            <p className="text-gray-600">Privilege Leave</p>
-            <p className="text-lg sm:text-xl font-semibold text-blue-700">{users?.user?.plBalance || 0} Days</p>
-          </div>
-          <div className="bg-green-50 p-4 rounded shadow-sm">
-            <p className="text-gray-600">Casual Leave</p>
-            <p className="text-lg sm:text-xl font-semibold text-green-700">{users?.user?.clBalance || 0} Days</p>
-          </div>
+    <div className="p-6 bg-white rounded-2xl shadow-2xl max-w-4xl mx-auto mt-10 border border-red-200">
+      <h2 className="text-3xl font-bold text-red-700 mb-6 text-center">📝 Leave Dashboard</h2>
+
+      {/* Leave Balance Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+        <div className="bg-red-100 p-5 rounded-xl shadow-md border border-red-200">
+          <p className="text-gray-700 font-medium">Privilege Leave</p>
+          <p className="text-2xl font-bold text-red-700">{users?.user?.plBalance || 0} Days</p>
         </div>
-
-        {/* ✅ Apply Leave Button */}
-        <NavLink
-          to="leave-application"
-          className="mb-6 inline-block bg-blue-600 text-white px-4 py-2 sm:px-5 sm:py-2 rounded-lg hover:bg-blue-700 transition"
-        >
-          Apply for Leave
-        </NavLink>
-
-        {/* ✅ Filter Buttons */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {["All", "Approved", "Pending", "Rejected"].map((status) => (
-            <button
-              key={status}
-              className={`px-3 py-1 rounded-full border text-sm transition ${
-                filter === status
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-              onClick={() => setFilter(status)}
-            >
-              {status}
-            </button>
-          ))}
+        <div className="bg-red-100 p-5 rounded-xl shadow-md border border-red-200">
+          <p className="text-gray-700 font-medium">Casual Leave</p>
+          <p className="text-2xl font-bold text-red-700">{users?.user?.clBalance || 0} Days</p>
         </div>
       </div>
 
-      {/* 🔽 Leave List (Mobile Scroll Fixed) */}
-      <div className="max-h-[calc(100vh-250px)] overflow-y-auto pr-1 sm:pr-2 space-y-4">
+      {/* Apply Leave Button */}
+      <div className="flex justify-center mb-6">
+        <NavLink
+          to="leave-application"
+          className="bg-red-700 text-white px-6 py-3 rounded-xl shadow-md hover:shadow-xl active:scale-95 transition-transform"
+        >
+          Apply for Leave
+        </NavLink>
+      </div>
+
+      {/* Filter Buttons */}
+      <div className="flex justify-center flex-wrap gap-3 mb-6">
+        {["All", "Approved", "Pending", "Rejected"].map((status) => (
+          <button
+            key={status}
+            onClick={() => setFilter(status)}
+            className={`px-5 py-2 rounded-full shadow-md text-sm font-medium transition-all active:scale-95 border
+              ${filter === status ? "bg-red-700 text-white border-red-800" : "bg-white text-red-700 border-red-300 hover:bg-red-50"}`}
+          >
+            {status}
+          </button>
+        ))}
+      </div>
+
+      {/* Leave List */}
+      <div className="space-y-5 max-h-[calc(100vh-300px)] overflow-y-auto pr-1">
         {loading ? (
-          <p className="text-gray-500">Loading leave data...</p>
+          <p className="text-center text-gray-500">Loading leave data...</p>
         ) : filteredLeaves.length > 0 ? (
           filteredLeaves.map((leave, index) => (
             <div
               key={index}
-              className="p-4 sm:p-5 text-black bg-gray-50 border rounded shadow-sm flex flex-col justify-between h-auto sm:h-[180px]"
+              className="bg-red-50 border border-red-200 rounded-xl p-5 shadow-md hover:shadow-lg transition"
             >
-              <p><span className="font-medium text-gray-700">Type:</span> {leave.leaveType}</p>
-              <p><span className="font-medium text-gray-700">Days:</span> {leave.days}</p>
-              <p><span className="font-medium text-gray-700">From:</span> {leave.fromDate}</p>
-              <p><span className="font-medium text-gray-700">To:</span> {leave.toDate}</p>
+              <p><span className="font-semibold text-gray-700">Type:</span> {leave.leaveType}</p>
+              <p><span className="font-semibold text-gray-700">Days:</span> {leave.days}</p>
+              <p><span className="font-semibold text-gray-700">From:</span> {leave.fromDate}</p>
+              <p><span className="font-semibold text-gray-700">To:</span> {leave.toDate}</p>
               <p>
-                <span className="font-medium text-gray-700">Status:</span>{" "}
-                <span className={`font-semibold ${
+                <span className="font-semibold text-gray-700">Status:</span>{" "}
+                <span className={`font-bold ${
                   leave.status === "Approved"
                     ? "text-green-600"
                     : leave.status === "Rejected"
@@ -111,7 +109,7 @@ const LeaveTarget = () => {
             </div>
           ))
         ) : (
-          <p className="text-gray-500">No leave requests found.</p>
+          <p className="text-center text-gray-500">No leave requests found.</p>
         )}
       </div>
     </div>

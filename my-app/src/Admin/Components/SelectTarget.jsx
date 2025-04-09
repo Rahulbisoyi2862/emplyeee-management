@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+
 const SelectTarget = () => {
   const navigate = useNavigate();
   const [allemp, setAllEmp] = useState([]);
   const [loading, setLoading] = useState(true);
-  // ✅ Employee Data (Example)
 
-  // ✅ Search State
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -28,17 +27,16 @@ const SelectTarget = () => {
     getUsers();
   }, []);
 
-  // ✅ Filter Employees
   const filteredEmployees = allemp.filter(
     (employee) =>
       employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      employee.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      employee.Position.toLowerCase().includes(searchQuery.toLowerCase()) ||
       employee.id.toString().includes(searchQuery)
   );
 
   return (
-    <div className="p-6 bg-gray-900 text-white min-h-screen flex flex-col items-center">
-      <h1 className="text-2xl font-bold text-blue-400 mb-4">📋 Select Employee</h1>
+    <div className="p-6 bg-white text-gray-800 min-h-screen flex flex-col items-center">
+      <h1 className="text-3xl font-bold text-red-700 mb-6 shadow-md p-4 rounded-lg">📋 Select Employee</h1>
 
       {/* ✅ Search Bar */}
       <input
@@ -46,14 +44,14 @@ const SelectTarget = () => {
         placeholder="🔍 Search by name or position..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="p-3 mb-6 border border-gray-600 rounded-lg w-full max-w-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        className="p-3 mb-6 border border-gray-300 rounded-lg w-full max-w-md bg-white text-gray-800 shadow-md focus:outline-none focus:ring-2 focus:ring-red-700 transition"
       />
 
       {/* ✅ Employee Table (Desktop) */}
       <div className="hidden sm:block w-full max-w-4xl">
-        <table className="w-full bg-gray-800 border border-gray-700 rounded-lg shadow-md">
+        <table className="w-full bg-white border border-gray-300 rounded-lg shadow-md">
           <thead>
-            <tr className="bg-blue-500 text-white">
+            <tr className="bg-red-700 text-white">
               <th className="p-3">ID</th>
               <th className="p-3">Name</th>
               <th className="p-3">Position</th>
@@ -63,14 +61,14 @@ const SelectTarget = () => {
           <tbody>
             {filteredEmployees.length > 0 ? (
               filteredEmployees.map((employee) => (
-                <tr key={employee.id} className="hover:bg-gray-700 transition">
-                  <td className="p-3 border-b border-gray-700">{employee.id}</td>
-                  <td className="p-3 border-b border-gray-700">{employee.name}</td>
-                  <td className="p-3 border-b border-gray-700">{employee.email}</td>
-                  <td className="p-3 border-b border-gray-700">
+                <tr key={employee.id} className="hover:bg-gray-100 transition">
+                  <td className="p-3 border-b border-gray-300">{employee.id}</td>
+                  <td className="p-3 border-b border-gray-300">{employee.name}</td>
+                  <td className="p-3 border-b border-gray-300">{employee.email}</td>
+                  <td className="p-3 border-b border-gray-300">
                     <button
-                      onClick={() => navigate("TargetForm")}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition"
+                      onClick={() => navigate(`/employee-target/SelectTarget/TargetForm/${employee.id}`)} // Navigate with employee ID
+                      className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-md shadow-md transition"
                     >
                       ➕ Add
                     </button>
@@ -90,29 +88,29 @@ const SelectTarget = () => {
       <div className="sm:hidden w-full max-w-md">
         {filteredEmployees.length > 0 ? (
           filteredEmployees.map((employee) => (
-            <div key={employee.id} className="p-4 mb-4 bg-gray-800 rounded-lg shadow-md">
+            <div key={employee.id} className="p-4 mb-4 bg-white rounded-lg shadow-md">
               <div className="flex justify-between">
-                <span className="text-blue-400 font-semibold">ID:</span>
+                <span className="text-red-700 font-semibold">ID:</span>
                 <span>{employee.id}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-blue-400 font-semibold">Name:</span>
+                <span className="text-red-700 font-semibold">Name:</span>
                 <span>{employee.name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-blue-400 font-semibold">email:</span>
+                <span className="text-red-700 font-semibold">Email:</span>
                 <span>{employee.email}</span>
               </div>
               <button
-                onClick={() => navigate("TargetForm")}
-                className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md transition"
+                onClick={() => navigate(`/employee-target/SelectTarget/TargetForm/${employee.id}`)} // Navigate with employee ID
+                className="mt-4 w-full bg-red-700 hover:bg-red-800 text-white py-2 rounded-md shadow-md transition"
               >
                 ➕ Add
               </button>
             </div>
           ))
         ) : (
-          <div className="text-center">❌ No employees found</div>
+          <div className="text-center text-red-700">❌ No employees found</div>
         )}
       </div>
     </div>

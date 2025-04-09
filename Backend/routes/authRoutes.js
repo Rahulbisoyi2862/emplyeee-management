@@ -22,9 +22,10 @@ router.get("/admin",verifyToken,(req,res)=>{
   return  res.json({ message: "Welcome!", user: req.user });
 })
 router.get("/user",userVerfyToken, async (req,res)=>{
-  
 const user=await User.findOne({_id:req.user.id})
-const usertarget=await userTarget.findOne({email:user.email})
+
+const usertarget=await userTarget.findOne({id:user.id})
+console.log(userTarget)
   return  res.json({ message: "Welcome! userpage", user: user ,target:usertarget});
 
 })

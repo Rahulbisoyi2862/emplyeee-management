@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 const EmployeeTarget = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [targets, setTargets] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(""); // This will filter based on ID
   const [dateFilter, setDateFilter] = useState("");
   const [counter, setCounter] = useState("");
   const navigate = useNavigate();
@@ -22,6 +22,7 @@ const EmployeeTarget = () => {
           }));
           setTargets(formattedTargets);
         }
+        
       } catch (err) {
         console.error("Error fetching targets:", err);
       }
@@ -29,9 +30,10 @@ const EmployeeTarget = () => {
     fetchTargets();
   }, []);
 
+  // Update this filter logic to compare with target.id and not email
   const filteredTargets = targets.filter(
     (target) =>
-      (target.email?.toLowerCase().includes(search.toLowerCase()) ||
+      (target.id?.toString().toLowerCase().includes(search.toLowerCase()) || // Convert target.id to string
         target.targetType?.toLowerCase().includes(search.toLowerCase())) &&
       (dateFilter === "" || target.date === dateFilter) &&
       (counter === "" || target.counterName === counter)
@@ -65,7 +67,7 @@ const EmployeeTarget = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <input
           type="text"
-          placeholder="Search by Email or Type"
+          placeholder="Search by ID or Type"
           className="px-4 py-2 border border-red-300 rounded-md bg-white text-gray-800"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -87,17 +89,17 @@ const EmployeeTarget = () => {
               className="p-4 mb-3 border border-gray-100 rounded-md bg-gray-50 shadow-sm"
             >
               <div className="space-y-1 text-gray-700 mb-4">
-                <p><strong>Employee:</strong> {target.email || "N/A"}</p>
+                <p><strong>Employee ID:</strong> {target.id || "N/A"}</p>
                 <p><strong>Type:</strong> {target.targetType?.toUpperCase() || "N/A"}</p>
-                <p><strong>Counter:</strong> {target.counterName || "N/A"}</p>
-                <p><strong>Value:</strong> {target.targetValue || "N/A"}</p>
-                <p><strong>Archive:</strong> {target.archive ? `${target.archive}%` : "N/A"}</p>
+                <p><strong>Counter:</strong> {target.targetCounter || "N/A"}</p>
+                <p><strong>Target Value:</strong> {target.targetValue || "N/A"} Gm</p>
+                <p><strong>Achive:</strong> {target.archive ? `${target.archive}Gm` : "N/A"}</p>
                 <p><strong>Date:</strong> {target.date || "N/A"}</p>
               </div>
               <div className="text-right">
                 <button
                   className="w-full sm:w-auto px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md"
-                  onClick={() => navigate(`/employee-target/${target.email}`)}
+                  onClick={() => navigate(`/employee-target/${target._id}`)}
                 >
                   Edit
                 </button>

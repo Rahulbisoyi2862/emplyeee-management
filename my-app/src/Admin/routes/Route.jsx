@@ -43,7 +43,7 @@ function AppRouter() {
         { path: "Setting/MessagePage", element: <MessagePage /> },
         { path: "employee-target/SelectTarget", element: <SelectTarget /> },
         {path:"employee-target/:id",element:<EditArchive/>},
-        { path: "employee-target/SelectTarget/TargetForm", element: <TargetForm /> },
+        { path: "employee-target/SelectTarget/TargetForm/:id", element: <TargetForm /> },
         { path: "leave-management", element: <LeaveManagement /> },
         {path:"AllEmployees/:id",element:<EmployeeDetail/>}
       ],

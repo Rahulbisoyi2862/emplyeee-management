@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
-
 const MAX_FILE_SIZE = 150 * 1024; // 150KB
 
 const UserCreate = () => {
@@ -20,7 +19,8 @@ const UserCreate = () => {
     clBalance: "",
     Position: "",
     otherFile: [],
-    role: ""
+    role: "",
+    selectedPage: "", // Add a new state to track selected page for subadmin
   });
 
   const handleChange = (e) => {
@@ -73,7 +73,7 @@ const UserCreate = () => {
       });
 
       const data = await response.json();
-     console.log(data)
+      console.log(data);
       if (response.status === 400) return toast.error(data.message);
 
       if (response.ok) {
@@ -88,7 +88,8 @@ const UserCreate = () => {
           clBalance: "",
           Position: "",
           otherFile: [],
-          role: ""
+          role: "",
+          selectedPage: "", // Reset selected page on submit
         });
 
         // Reset file inputs
@@ -96,7 +97,7 @@ const UserCreate = () => {
         adharRef.current.value = "";
         otherRef.current.value = "";
 
-       return toast.success(data.message);
+        return toast.success(data.message);
       }
     } catch (error) {
       toast.error("Something went wrong.");
@@ -170,22 +171,42 @@ const UserCreate = () => {
                 <option value="admin">Admin</option>
               </select>
             </div>
+
+            {/* Conditional rendering of the page selection dropdown for Sub Admin */}
+            {formData.role === "subadmin" && (
+              <div>
+                <label className="block mb-1 font-medium text-red-700">Select Page</label>
+                <select name="selectedPage" value={formData.selectedPage} onChange={handleChange}
+                  className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full">
+                  <option value="">Select Page</option>
+                  <option value="dashboard">Dashboard</option>
+                  <option value="allEmployees">All Employees</option>
+                  <option value="leaveManagement">Leave Management</option>
+                  <option value="employeeTarget">Employee Target</option>
+                </select>
+              </div>
+            )}
           </div>
 
-          <h3 className="text-lg font-bold mt-6 text-red-700">Leave Balance</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label className="block mb-1 font-medium text-red-700">PL Balance</label>
-              <input type="number" name="plBalance" value={formData.plBalance} onChange={handleChange} placeholder="PL Balance"
-                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
-            </div>
+          {/* Conditional rendering of Leave Balance section for user only */}
+          {formData.role === "user" && (
+            <>
+              <h3 className="text-lg font-bold mt-6 text-red-700">Leave Balance</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block mb-1 font-medium text-red-700">PL Balance</label>
+                  <input type="number" name="plBalance" value={formData.plBalance} onChange={handleChange} placeholder="PL Balance"
+                    className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+                </div>
 
-            <div>
-              <label className="block mb-1 font-medium text-red-700">CL Balance</label>
-              <input type="number" name="clBalance" value={formData.clBalance} onChange={handleChange} placeholder="CL Balance"
-                className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
-            </div>
-          </div>
+                <div>
+                  <label className="block mb-1 font-medium text-red-700">CL Balance</label>
+                  <input type="number" name="clBalance" value={formData.clBalance} onChange={handleChange} placeholder="CL Balance"
+                    className="p-3 border border-red-300 bg-white text-gray-800 rounded-md w-full" />
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="flex justify-center">
             <button type="submit"

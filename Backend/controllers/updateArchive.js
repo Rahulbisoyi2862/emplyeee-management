@@ -3,11 +3,12 @@ const userTarget = require("../models/userTarget");
 const updateArchive = async (req, res) => {
     try {
         const { archive, type } = req.body; // Frontend se archive data
-        const email = req.params.id; // Email from URL
+        const id = req.params.id; // Email from URL
 
         // User exist karta hai ya nahi?
-        const user = await userTarget.findOne({ email });
+        const user = await userTarget.findOne({ _id:id });
         console.log(type)
+        console.log(user)
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });
         }
