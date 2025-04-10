@@ -10,28 +10,52 @@ router.post("/employee/:id", target);
 
 router.get("/get-allTarget", getAllTarget)
 
+router.get('/myDtl/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    // ✅ Find the latest target entry for this user
+    const latestTarget = await userTarget.findOne({ id }).sort({ createdAt: -1 });
+
+    if (!latestTarget) {
+      return res.status(404).json({ message: 'No target found for this user' });
+    }
+
+    // ✅ Get user details
+    const user = await User.findOne({ id });
+
+    res.status(200).json({
+      target: latestTarget,
+      user: user || {}
+    });
+  } catch (error) {
+    console.error('❌ Error in /myDtl route:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 router.get("/topThree", async (req, res) => {
   try {
-    // Pehle top 3 employees find karo
     const topEmployees = await userTarget.find({})
       .sort({ archive: -1 })
       .limit(3);
 
-    // Ab inka name find karo `User` model se
-    const employeesWithName = await Promise.all(
+    const employeesWithDetails = await Promise.all(
       topEmployees.map(async (employee) => {
-        const user = await User.findOne({ email: employee.email }); // ✅ Email se User find karo
+        const user = await User.findOne({ id: employee.id }); // ✅ Based on your custom 5-digit id
+
         return {
           _id: employee._id,
-          email: employee.email,
+          id: employee.id,
           archive: employee.archive,
-          name: user ? user.name : "Unknown", // ✅ User mila toh name, nahi toh "Unknown"
+          name: user?.name || "Unknown",
+          email: user?.email || "Not Found",
+          profileImg: user?.profileImg || null,
         };
       })
     );
 
-    //   console.log("Top Employees with Names:", employeesWithName); // Debugging
-    res.status(200).json(employeesWithName); // ✅ JSON Response
+    res.status(200).json(employeesWithDetails);
   } catch (error) {
     console.error("❌ Error fetching top employees:", error);
     res.status(500).json({ error: "Internal Server Error" });

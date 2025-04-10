@@ -47,7 +47,7 @@ const Sidebar = ({ context, isOpen, toggleSidebar }) => {
       <nav>
         <ul className="space-y-4 mt-10">
           <NavLink
-            to="Dashboard"
+            to="BalanceCharts"
             className={({ isActive }) =>
               `flex items-center gap-4 px-6 py-3 rounded-xl cursor-pointer hover:bg-gray-100 ${isActive ? "text-red-500 font-semibold bg-gray-100" : "text-gray-700"
               }`

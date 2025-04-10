@@ -7,6 +7,6 @@ const userTargetSchema = new mongoose.Schema({
     targetCounter: String,
     archive: { type: Number, default: 0 },
     date: String,
-});
+},{ timestamps: true })
 
 module.exports = mongoose.model("userTarget", userTargetSchema);

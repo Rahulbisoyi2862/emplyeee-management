@@ -6,6 +6,7 @@ const router = express.Router();
 
 
 router.post("/status",leaveTarget);
+
 router.get("/id/get/:id", async (req,res)=>{
     try {
         const userId = req.params.id;
@@ -39,7 +40,7 @@ router.get("/allData", async (req,res)=>{
 router.post("/action", async (req,res)=>{
   const { action, id } = req.body;
   console.log("Action Received:", action, "for ID:", id);
-
+    
   try {
     const updatedLeave = await leave.findByIdAndUpdate(
       id, // yeh MongoDB _id hai
@@ -51,6 +52,22 @@ router.post("/action", async (req,res)=>{
       return res.status(404).json({ message: "Leave not found" });
     }
 
+    // updatedLeave.status
+    console.log(updatedLeave.id)
+    const us= await User.findOne({id:updatedLeave.id})
+    
+    if (updatedLeave.status === "approved") {
+      if (updatedLeave.leaveType === "PL") {
+        us.plBalance -= updatedLeave.days;
+      } else if (updatedLeave.leaveType === "CL") {
+        us.clBalance -= updatedLeave.days;
+      }
+    
+      await us.save(); 
+    }
+
+
+    console.log(us.plBalance)
     res.status(200).json({
       message: "Leave status updated successfully",
       updatedLeave,

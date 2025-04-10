@@ -25,6 +25,8 @@ import EmployeeDetail from "../Components/EmployeeDetail";
 import EditArchive from "../Components/EditArchive";
 import DashboardPage from "../Components/DashboardPage";
 import WelcomePage from "../../Welcome/WelcomePage";
+import EditUserForm from "../Components/EditUserForm";
+import BalanceCharts from "../../Employee/Components/BalanceCharts";
 
 function AppRouter() {
 
@@ -45,13 +47,15 @@ function AppRouter() {
         {path:"employee-target/:id",element:<EditArchive/>},
         { path: "employee-target/SelectTarget/TargetForm/:id", element: <TargetForm /> },
         { path: "leave-management", element: <LeaveManagement /> },
-        {path:"AllEmployees/:id",element:<EmployeeDetail/>}
+        {path:"AllEmployees/:id",element:<EmployeeDetail/>},
+        {path:"edit-employee/:id",element:<EditUserForm/>},
       ],
     },
     {
       path: "/employee",
       element: <ParentEmployee />,
       children: [
+        { path:'BalanceCharts',element:<BalanceCharts/>},
         { path: "Leaderboard", element: <Leaderboard /> },
         { path: "mydetails", element: <MyDetails /> },
         { path: "Mytarget", element: <Mytarget /> },

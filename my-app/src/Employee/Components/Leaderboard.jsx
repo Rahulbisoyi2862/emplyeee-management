@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Mail, Trophy } from 'lucide-react'; // Import only necessary icons
+import { Mail, Trophy } from "lucide-react"; // Import only necessary icons
 
 const Leaderboard = () => {
   const [employees, setEmployees] = useState([]);
@@ -26,21 +26,29 @@ const Leaderboard = () => {
       </h2>
       <ul className="space-y-6">
         {employees.length > 0 ? (
-          employees.map((emp, index) => (
+          employees.map((emp) => (
             <li
               key={emp.email}
-              className={`flex justify-start items-center p-6 rounded-lg bg-white text-gray-900 border border-gray-300 transition-all hover:bg-gray-50`}
+              className="flex justify-start items-center p-6 rounded-lg bg-white text-gray-900 border border-gray-300 transition-all hover:bg-gray-50"
             >
               <div className="flex items-center space-x-4">
-                {/* Profile Picture Placeholder */}
-                <div className="w-16 h-16 rounded-full bg-gray-300 flex justify-center items-center">
-                  <span className="text-2xl font-semibold text-gray-800">
-                    {emp.name[0]}
-                  </span>
+                {/* Profile Picture */}
+                <div className="w-16 h-16 rounded-full bg-gray-300 overflow-hidden flex justify-center items-center">
+                  {emp.profileImg ? (
+                    <img
+                      src={`http://localhost:5000/uploads/${emp.profileImg}`}
+                      alt={emp.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-2xl font-semibold text-gray-800">
+                      {emp.name[0]}
+                    </span>
+                  )}
                 </div>
               </div>
 
-              {/* Stack name and email vertically on small screens, horizontally on medium and larger screens */}
+              {/* Name and Email */}
               <div className="flex flex-col md:flex-row md:ml-6 md:items-center w-full">
                 <span className="font-medium text-xl mb-3 md:mb-0">{emp.name}</span>
                 <div className="flex items-center space-x-2 mt-3 md:mt-0 md:ml-4">

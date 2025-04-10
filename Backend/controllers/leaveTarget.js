@@ -30,9 +30,9 @@ const leaveTarget = async (req, res) => {
       return res.status(400).json({ message: "User not found." });
     }
 
-    user.clBalance = updatedCl;
-    user.plBalance = updatedPl;
-    await user.save();
+    // user.clBalance = updatedCl;
+    // user.plBalance = updatedPl;
+    // await user.save();
 
     const lev = await leave.create({
       leaveType,

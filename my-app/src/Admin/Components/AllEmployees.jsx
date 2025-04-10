@@ -152,12 +152,7 @@ const AllEmployees = () => {
                           >
                             Edit
                           </button>
-                          <button
-                            onClick={() => handleDelete(employee.id)}
-                            className="bg-gray-800 text-white px-4 py-2 rounded-md transition hover:bg-black"
-                          >
-                            Delete
-                          </button>
+                      
                         </div>
                       </td>
                     </tr>

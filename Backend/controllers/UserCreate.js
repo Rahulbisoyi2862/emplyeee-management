@@ -27,6 +27,8 @@ const UserCreate = async (req, res) => {
     password,
     plBalance,
     clBalance,
+    totalPl:plBalance,
+    totalCl:clBalance,
     Position,
     role,
   });
@@ -85,6 +87,8 @@ const UserCreate = async (req, res) => {
       password: hashedPassword,
       plBalance: plnumber,
       clBalance: clnumber,
+      totalPl:plnumber,
+      totalCl:clnumber,
       Position,
       role: role || "user",
     });

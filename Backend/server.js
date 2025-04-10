@@ -9,8 +9,9 @@ const target = require('./routes/target')
 const updateArchive = require("./routes/updateArchive")
 const passwordChange = require("./routes/passwordChange")
 const leaveTarget = require("./routes/leaveTarget");
-const cors = require("cors");
 const profilePhoto = require("./routes/profilePhoto");
+const editUser = require("./routes/editUser");
+const cors = require("cors");
 
 connectDB();
 const app = express();
@@ -36,6 +37,7 @@ app.use("/api/target", updateArchive)
 app.use("/api/password/", passwordChange)
 app.use("/api/leave", leaveTarget)
 app.use("/api/upload", profilePhoto)
+app.use("/api/user", editUser)
 
 
 const PORT = process.env.PORT || 5000;
