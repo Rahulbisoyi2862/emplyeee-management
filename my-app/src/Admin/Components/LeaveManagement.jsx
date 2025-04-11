@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { Calendar, IdCard } from 'lucide-react';
 const LeaveManagement = () => {
   const [leaves, setLeaves] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -81,7 +81,8 @@ const LeaveManagement = () => {
     <div className="w-full px-6 py-8 min-h-screen bg-white text-white">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-red-700 text-center mb-8">
-          📅 Leave Management
+          <Calendar size={40} className="inline-block" />   Leave Management
+
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
@@ -98,17 +99,16 @@ const LeaveManagement = () => {
               <Button
                 key={status}
                 onClick={() => setStatusFilter(status)}
-                className={`px-4 py-2 rounded-xl text-red-700 ${
-                  statusFilter === status
-                    ? status === 'approved'
-                      ? ' text-black bg-gray-200'
-                      : status === 'rejected'
+                className={`px-4 py-2 rounded-xl text-red-700 ${statusFilter === status
+                  ? status === 'approved'
+                    ? ' text-black bg-gray-200'
+                    : status === 'rejected'
                       ? 'text-black bg-gray-200'
                       : status === 'pending'
-                      ? 'text-black bg-gray-200'
-                      : 'text-black bg-gray-200'
-                      : ''
-                }`}
+                        ? 'text-black bg-gray-200'
+                        : 'text-black bg-gray-200'
+                  : ''
+                  }`}
               >
                 {status === "all" ? "All" : status.charAt(0).toUpperCase() + status.slice(1)}
               </Button>
@@ -124,7 +124,7 @@ const LeaveManagement = () => {
                 className="p-5 mb-5 bg-gray-100 rounded-2xl border border-gray-300 shadow-md hover:shadow-lg transition duration-300"
               >
                 <div className="space-y-2 text-sm text-gray-700 mb-4">
-                  <p><span className="text-gray-500 font-medium">🆔 ID:</span> {leave.id}</p>
+                  <p><span className="text-gray-500 font-medium"> <IdCard className="inline-block" /> ID:</span> {leave.id}</p>
                   <p><span className="text-gray-500 font-medium">Type:</span> {leave.leaveType} Leave</p>
                   <p><span className="text-gray-500 font-medium">Date:</span> {leave.fromDate} - {leave.toDate} ({leave.days} days)</p>
                   <p><span className="text-gray-500 font-medium">Status:</span> {leave.status}</p>

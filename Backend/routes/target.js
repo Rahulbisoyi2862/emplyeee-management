@@ -128,8 +128,6 @@ router.get("/get-storeTarget/:targetCounter", async (req, res) => {
 });
 
 
-
-
 router.get("/get-storeTargetAll", async (req, res) => {
   const dateQuery = req.query.date;
 

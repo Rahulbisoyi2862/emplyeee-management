@@ -7,6 +7,7 @@ import {
   Target,
   Settings,
   X,
+  TrendingUp,
 } from "lucide-react";
 import { NavLink } from "react-router";
 
@@ -102,6 +103,19 @@ const Sidebar = ({ setSelectedTab, isOpen, toggleSidebar }) => {
       >
         <Mail size={18} />
         Leave Management
+      </NavLink>
+
+      <NavLink
+        to="StockDetailPage"
+        className={({ isActive }) =>
+          `flex items-center gap-3 px-6 py-3 rounded-xl cursor-pointer hover:bg-gray-100 ${
+            isActive ? "text-red-500 font-semibold bg-gray-100" : "text-gray-700"
+          }`
+        }
+        onClick={() => setSelectedTab("Stock")}
+      >
+       <TrendingUp/>
+       Stock Detail
       </NavLink>
 
       <NavLink

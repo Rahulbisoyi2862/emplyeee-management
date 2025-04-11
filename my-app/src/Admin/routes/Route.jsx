@@ -27,6 +27,8 @@ import DashboardPage from "../Components/DashboardPage";
 import WelcomePage from "../../Welcome/WelcomePage";
 import EditUserForm from "../Components/EditUserForm";
 import BalanceCharts from "../../Employee/Components/BalanceCharts";
+import StockDetailPage from "../Components/StockDetailPage";
+import AddProgressPage from "../Components/AddProgressPage";
 
 function AppRouter() {
 
@@ -49,6 +51,8 @@ function AppRouter() {
         { path: "leave-management", element: <LeaveManagement /> },
         {path:"AllEmployees/:id",element:<EmployeeDetail/>},
         {path:"edit-employee/:id",element:<EditUserForm/>},
+        {path:"StockDetailPage",element:<StockDetailPage/>},
+        {path:"AddProgressPage/:id",element:<AddProgressPage/>}
       ],
     },
     {

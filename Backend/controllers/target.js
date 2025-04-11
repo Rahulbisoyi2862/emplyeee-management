@@ -1,69 +1,50 @@
-const userTarget = require("../models/userTarget");
 const User = require("../models/User"); // Import User model
+const UserTarget = require("../models/userTarget");
 
 const target = async (req, res) => {
     try {
-        const { targetType,targetValue,date,counter} = req.body;
-        const id=req.params.id
-       
-         console.log(targetType)
-        // ✅ Check if Email Exists in User Model
-        const user = await User.findOne({ id });
-        if (!user) {
-            return res.status(404).json({ error: "⚠️ User not found!" });
+        const employeeId = req.params.id;
+        const { targetType, targetGold, targetDiamond, counter, month, year } = req.body;
+
+        // Validation
+        if (!targetType || !targetGold || !targetDiamond || !counter || !month || !year) {
+            return res.status(400).json({ error: "Please fill in all fields." });
         }
 
-        // ✅ Block Admin Emails
-        if (user.role === "admin") {
-            return res.status(403).json({ error: "❌ Admin cannot have targets!" });
-        }
+        // Get user name from User model
+        const user = await User.findOne({ id: employeeId });
+        if (!user) return res.status(400).json({ message: "User not found." });
 
-        // ✅ Validation Checks
-        if (!targetType || !targetValue || !date || !id ||!counter) {
-            return res.status(400).json({ error: "⚠️ All fields are required!" });
-        }
-        if (!["yearly", "monthly"].includes(targetType)) {
-            return res.status(400).json({ error: "⚠️ Invalid target type! Choose 'yearly' or 'monthly'." });
-        }
-        if (isNaN(targetValue) || targetValue <= 0) {
-            return res.status(400).json({ error: "⚠️ Target value must be a positive number!" });
-        }
-
-        // ✅ Convert to local date & time
-        // const localDate = new Date(date).toLocaleString("en-IN", {
-        //     timeZone: "Asia/Kolkata",
-        //     year: "numeric",
-        //     month: "2-digit",
-        //     day: "2-digit",
-        //     hour: "2-digit",
-        //     minute: "2-digit",
-        //     second: "2-digit",
-        // });
-
-        const localDate = new Date(date).toLocaleDateString("en-CA", {
-            year: "numeric",
+        // Generate current date in MM-DD-YY format
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString("en-US", {
+            year: "2-digit",
             month: "2-digit",
-            day: "2-digit",
-        });
+            day: "2-digit"
+        }); // e.g., "04/12/25"
 
-        
-        const targetNumber = parseFloat(targetValue);
+        const formattedDateWithHyphen = formattedDate.replace(/\//g, "-"); // "04-12-25"
 
-        // ✅ Save to Database
-        const userTargetData = await userTarget.create({
+        // Create new target object
+        const newTarget = new UserTarget({
+            name: user.name,
+            id: employeeId,
             targetType,
-            targetValue:targetNumber,
-            targetCounter:counter,
-            date: localDate, // Store Local Date
-            id,
+            targetGold,
+            targetDiamond,
+            counter,
+            month, // 👈 Store as received (e.g., "04")
+            year,  // 👈 Store as received (e.g., "2025")
+            date: formattedDateWithHyphen, // 👈 Save current date as "MM-DD-YY"
         });
 
-        res.json({ message: "✅ Target added successfully!", target: userTargetData });
+        await newTarget.save();
+        res.status(201).json({ message: "Target created successfully." });
+
     } catch (error) {
-        console.error("❌ Error adding target:", error);
-        res.status(500).json({ error: "⚠️ Internal Server Error" });
+        console.error("Error creating target:", error);
+        res.status(500).json({ error: "Server error while creating target." });
     }
-  
 };
 
 module.exports = target;

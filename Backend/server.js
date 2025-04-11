@@ -11,6 +11,8 @@ const passwordChange = require("./routes/passwordChange")
 const leaveTarget = require("./routes/leaveTarget");
 const profilePhoto = require("./routes/profilePhoto");
 const editUser = require("./routes/editUser");
+const targetUpdateRow=require("./routes/targetUpdateRow")
+const CounterData=require('./routes/CounterData')
 const cors = require("cors");
 
 connectDB();
@@ -19,7 +21,7 @@ const app = express();
 app.use(cors({
   origin: "http://localhost:5173", // Sirf is origin ko allow karega
   credentials: true, // Cookies allow karne ke liye,
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 }));
 
 app.use("/uploads", express.static("uploads"));
@@ -38,7 +40,8 @@ app.use("/api/password/", passwordChange)
 app.use("/api/leave", leaveTarget)
 app.use("/api/upload", profilePhoto)
 app.use("/api/user", editUser)
-
+app.use("/api/editRow",targetUpdateRow)
+app.use('/api',CounterData)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
