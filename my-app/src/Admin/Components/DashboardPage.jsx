@@ -155,14 +155,26 @@ const DashboardPage = () => {
                         className="outline-none text-sm text-gray-700"
                     >
                         <option value={currentYear}>{currentYear}</option>
-                        <option value="2024">2024</option>
                         <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                        <option value="2031">2031</option>
+                        <option value="2032">2032</option>
+                        <option value="2033">2033</option>
+                        <option value="2034">2034</option>
+                        <option value="2035">2035</option>
+
                     </select>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[ 
+                {[
                     { title: "Monthly Store Gold", key: "goldMonthly", color: "text-yellow-600" },
                     { title: "Monthly Store Diamond", key: "diamondMonthly", color: "text-blue-600" },
                     { title: "Yearly Store Gold", key: "goldYearly", color: "text-yellow-600" },
@@ -232,7 +244,7 @@ const DashboardPage = () => {
             {/* Counter Data Display for Selected Item */}
             {selectedItem && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    {[ 
+                    {[
                         { label: "Monthly Gold", key: "goldMonthly", color: "text-yellow-600" },
                         { label: "Monthly Diamond", key: "diamondMonthly", color: "text-blue-600" },
                         { label: "Yearly Gold", key: "goldYearly", color: "text-yellow-600" },

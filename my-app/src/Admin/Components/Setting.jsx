@@ -1,6 +1,9 @@
 import { KeyRound } from "lucide-react";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+// Import React-Toastify
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the Toastify CSS
 
 const Setting = () => {
   const [selectedTab, setSelectedTab] = useState("");
@@ -9,7 +12,40 @@ const Setting = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submitted Google Sheet URL:", sheetUrl);
-    // Yahan tum API call ya localStorage save logic bhi add kar sakte ho
+
+    async function postData() {
+      try {
+        const response = await fetch('http://localhost:5000/api/google/sheet', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({sheetUrl})
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        
+        console.log('Success:', result);
+
+        // Success Toast
+        toast.success('Google Sheet URL submitted successfully!');
+        
+        // Reset the input value after successful submission
+        setSheetUrl("");
+
+      } catch (error) {
+        console.error('Error:', error);
+        
+        // Error Toast
+        toast.error('Failed to submit Google Sheet URL. Please try again.');
+      }
+    }
+
+    postData();  // Calling the function
   };
 
   return (
@@ -40,8 +76,8 @@ const Setting = () => {
           <NavLink
             to="Change-password"
             className={`flex items-center w-full p-3 rounded-xl shadow transition duration-300 ${selectedTab === "Password Change"
-                ? "bg-blue-600 text-white font-bold"
-                : "bg-gray-100 hover:bg-blue-100 hover:text-black"
+              ? "bg-blue-600 text-white font-bold"
+              : "bg-gray-100 hover:bg-blue-100 hover:text-black"
               }`}
             onClick={() => setSelectedTab("Password Change")}
           >
@@ -49,6 +85,9 @@ const Setting = () => {
           </NavLink>
         </ul>
       </div>
+
+      {/* Toastify Container for displaying Toast messages */}
+      <ToastContainer />
     </div>
   );
 };

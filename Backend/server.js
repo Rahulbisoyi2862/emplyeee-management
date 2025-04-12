@@ -13,6 +13,8 @@ const profilePhoto = require("./routes/profilePhoto");
 const editUser = require("./routes/editUser");
 const targetUpdateRow=require("./routes/targetUpdateRow")
 const CounterData=require('./routes/CounterData')
+const googleSheet=require('./routes/googleSheet')
+
 const cors = require("cors");
 
 connectDB();
@@ -42,6 +44,7 @@ app.use("/api/upload", profilePhoto)
 app.use("/api/user", editUser)
 app.use("/api/editRow",targetUpdateRow)
 app.use('/api',CounterData)
+app.use("/api/google",googleSheet)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

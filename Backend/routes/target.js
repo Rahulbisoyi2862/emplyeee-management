@@ -15,7 +15,7 @@ router.get('/myDtl/:id', async (req, res) => {
     const id = req.params.id;
 
     // ✅ Find the latest target entry for this user
-    const latestTarget = await userTarget.findOne({ id }).sort({ createdAt: -1 });
+    const latestTarget = await userTarget.findOne({ id: id }).sort({ createdAt: -1 });
 
     if (!latestTarget) {
       return res.status(404).json({ message: 'No target found for this user' });
@@ -26,13 +26,14 @@ router.get('/myDtl/:id', async (req, res) => {
 
     res.status(200).json({
       target: latestTarget,
-      user: user || {}
+      user: user || {},
     });
   } catch (error) {
     console.error('❌ Error in /myDtl route:', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
 
 router.get("/topThree", async (req, res) => {
   try {
