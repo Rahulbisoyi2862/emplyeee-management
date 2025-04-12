@@ -13,7 +13,7 @@ router.get("/get-allTarget", getAllTarget)
 router.get('/myDtl/:id', async (req, res) => {
   try {
     const id = req.params.id;
-
+   
     // ✅ Find the latest target entry for this user
     const latestTarget = await userTarget.findOne({ id: id }).sort({ createdAt: -1 });
 

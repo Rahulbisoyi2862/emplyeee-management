@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Mail, Trophy } from "lucide-react"; // Import only necessary icons
+import { motion } from "framer-motion"; // Import Framer Motion
 
 const Leaderboard = () => {
   const [employees, setEmployees] = useState([]);
@@ -20,16 +21,29 @@ const Leaderboard = () => {
   }, []);
 
   return (
-    <div className="max-w-4xl mt-20 mx-auto bg-white rounded-xl p-8 border border-gray-200">
-      <h2 className="text-3xl font-semibold text-center text-red-700 mb-8 border-b-2 pb-2 border-red-700">
+    <motion.div
+      className="max-w-4xl mt-20 mx-auto bg-white rounded-xl p-8 border border-gray-200"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
+      <motion.h2
+        className="text-3xl font-semibold text-center text-red-700 mb-8 border-b-2 pb-2 border-red-700"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
         <Trophy className="inline-block mr-2" size={30} /> Top Performers
-      </h2>
+      </motion.h2>
       <ul className="space-y-6">
         {employees.length > 0 ? (
-          employees.map((emp) => (
-            <li
+          employees.map((emp, index) => (
+            <motion.li
               key={emp.email}
               className="flex justify-start items-center p-6 rounded-lg bg-white text-gray-900 border border-gray-300 transition-all hover:bg-gray-50"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }} // Stagger animation
             >
               <div className="flex items-center space-x-4">
                 {/* Profile Picture */}
@@ -56,13 +70,13 @@ const Leaderboard = () => {
                   <span className="text-sm text-gray-500">{emp.email}</span>
                 </div>
               </div>
-            </li>
+            </motion.li>
           ))
         ) : (
           <p className="text-center text-gray-500">⏳ Loading...</p>
         )}
       </ul>
-    </div>
+    </motion.div>
   );
 };
 

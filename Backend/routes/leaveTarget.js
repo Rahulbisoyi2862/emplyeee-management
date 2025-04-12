@@ -37,13 +37,13 @@ router.get("/allData", async (req,res)=>{
   
 })
 
-router.post("/action", async (req,res)=>{
+router.post("/action", async (req, res) => {
   const { action, id } = req.body;
   console.log("Action Received:", action, "for ID:", id);
-    
+
   try {
     const updatedLeave = await leave.findByIdAndUpdate(
-      id, // yeh MongoDB _id hai
+      id, // Yeh MongoDB _id hai
       { $set: { status: action } },
       { new: true }
     );
@@ -52,27 +52,35 @@ router.post("/action", async (req,res)=>{
       return res.status(404).json({ message: "Leave not found" });
     }
 
-    // updatedLeave.status
-    console.log(updatedLeave.id)
-    const us= await User.findOne({id:updatedLeave.id})
-    
-    if (updatedLeave.status === "approved") {
-      if (updatedLeave.leaveType === "PL") {
-        us.plBalance -= updatedLeave.days;
-      } else if (updatedLeave.leaveType === "CL") {
-        us.clBalance -= updatedLeave.days;
-      }
-    
-      await us.save(); 
+    // Leave status update hone par, user ki leave details ko update karna
+    const user = await User.findOne({ id: updatedLeave.id });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
 
+    if (updatedLeave.status === "approved") {
+      if (updatedLeave.leaveType === "PL") {
+        // PL ki leave approve hone par, plBalance ko update karo
+        user.plBalance -= updatedLeave.days;
+        // **totalPl ko update mat karo** bas plBalance ko update karo
+      } else if (updatedLeave.leaveType === "CL") {
+        // CL ki leave approve hone par, clBalance ko update karo
+        user.clBalance -= updatedLeave.days;
+        // **totalCl ko update mat karo** bas clBalance ko update karo
+      }
 
-    console.log(us.plBalance)
+      await user.save(); // User ki details save karna
+    }
+
+    console.log("Updated PL Balance:", user.plBalance);
+    console.log("Updated CL Balance:", user.clBalance);
+
     res.status(200).json({
       message: "Leave status updated successfully",
       updatedLeave,
+      user,
     });
-
   } catch (error) {
     console.error("Error updating leave status:", error);
     res.status(500).json({ message: "Internal server error" });
