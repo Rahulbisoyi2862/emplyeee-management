@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useOutletContext } from "react-router";
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from "recharts";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 const COLORS = ["#EF4444", "#10B981"]; // Red and Green
 
 const ChartCard = ({ title, data, achieved, total, titleColor }) => (
-    <div className="bg-white rounded-xl shadow-lg p-6 w-full md:w-[45%]">
+    <motion.div
+        className="bg-white rounded-xl shadow-lg p-6 w-full md:w-[45%]"
+        initial={{ opacity: 0, y: 20 }} // Initial state (offscreen and invisible)
+        animate={{ opacity: 1, y: 0 }}  // Animate to full opacity and position
+        transition={{ duration: 0.6 }}  // Transition duration
+    >
         <h3 className={`text-lg font-semibold mb-4 text-${titleColor}-600 text-center`}>
             {title} ({achieved}/{total})
         </h3>
@@ -35,7 +41,7 @@ const ChartCard = ({ title, data, achieved, total, titleColor }) => (
                 />
             </PieChart>
         </ResponsiveContainer>
-    </div>
+    </motion.div>
 );
 
 const TargetBalanceChart = () => {
@@ -114,69 +120,86 @@ const TargetBalanceChart = () => {
     ];
 
     return (
-        <div className="max-w-5xl mx-auto px-4 py-8">
-            {/* Gold Pie Chart */}
-            <div className="w-full bg-white shadow-md rounded-xl p-6 mb-8">
-                <h2 className="text-xl font-bold text-center text-yellow-600 mb-4">
-                    🎯 Gold Target ({totalGold}/{targetData?.target?.targetGold})
-                </h2>
-                <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                        <Pie
-                            data={getGoldData(totalGold, targetData?.target?.targetGold)}
-                            dataKey="value"
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={100}
-                            label
-                        >
-                            <Cell fill="#EF4444" />
-                            <Cell fill="#10B981" />
-                        </Pie>
-                        <Tooltip />
-                        <Legend
-                            verticalAlign="bottom"
-                            iconType="circle"
-                            formatter={(value, entry, index) => (
-                                <span className={`text-sm ${COLORS[index] === '#EF4444' ? 'text-red-600' : 'text-green-600'}`}>
-                                    {value}
-                                </span>
-                            )}
-                        />
-                    </PieChart>
-                </ResponsiveContainer>
-            </div>
+        <motion.div
+            className="max-w-5xl mx-auto px-4 py-8"
+            initial={{ opacity: 0 }} // Initial state (invisible)
+            animate={{ opacity: 1 }} // Animate to full opacity
+            transition={{ duration: 0.8 }}  // Transition duration
+        >
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                {/* Gold Pie Chart */}
+                <motion.div
+                    className="w-full bg-white shadow-md rounded-xl p-6 mb-8"
+                    initial={{ opacity: 0, x: -50 }} // Initial state (slide in from left)
+                    animate={{ opacity: 1, x: 0 }}    // Animate to full opacity and position
+                    transition={{ duration: 0.8 }}
+                >
+                    <h2 className="text-xl font-bold text-center text-yellow-600 mb-4">
+                        🎯 Gold Target ({totalGold}/{targetData?.target?.targetGold})
+                    </h2>
+                    <ResponsiveContainer width="100%" height={300}>
+                        <PieChart>
+                            <Pie
+                                data={getGoldData(totalGold, targetData?.target?.targetGold)}
+                                dataKey="value"
+                                cx="50%"
+                                cy="50%"
+                                outerRadius={100}
+                                label
+                            >
+                                <Cell fill="#FFD700" /> {/* Gold color */}
+                                <Cell fill="#10B981" />
+                            </Pie>
+                            <Tooltip />
+                            <Legend
+                                verticalAlign="bottom"
+                                iconType="circle"
+                                formatter={(value, entry, index) => (
+                                    <span className={`text-sm ${COLORS[index] === '#EF4444' ? 'text-red-600' : 'text-green-600'}`}>
+                                        {value}
+                                    </span>
+                                )}
+                            />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </motion.div>
 
-            {/* Diamond Pie Chart */}
-            <div className="w-full bg-white shadow-md rounded-xl p-6 mb-8">
-                <h2 className="text-xl font-bold text-center text-blue-600 mb-4">
-                    🎯 Diamond Target ({totalDiamond}/{targetData?.target?.targetDiamond})
-                </h2>
-                <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                        <Pie
-                            data={getDiamondData(totalDiamond, targetData?.target?.targetDiamond)}
-                            dataKey="value"
-                            cx="50%"
-                            cy="50%"
-                            outerRadius={100}
-                            label
-                        >
-                            <Cell fill="#EF4444" />
-                            <Cell fill="#10B981" />
-                        </Pie>
-                        <Tooltip />
-                        <Legend
-                            verticalAlign="bottom"
-                            iconType="circle"
-                            formatter={(value, entry, index) => (
-                                <span className={`text-sm ${COLORS[index] === '#EF4444' ? 'text-red-600' : 'text-green-600'}`}>
-                                    {value}
-                                </span>
-                            )}
-                        />
-                    </PieChart>
-                </ResponsiveContainer>
+                {/* Diamond Pie Chart */}
+                <motion.div
+                    className="w-full bg-white shadow-md rounded-xl p-6 mb-8"
+                    initial={{ opacity: 0, x: 50 }} // Initial state (slide in from right)
+                    animate={{ opacity: 1, x: 0 }}    // Animate to full opacity and position
+                    transition={{ duration: 0.8 }}
+                >
+                    <h2 className="text-xl font-bold text-center text-blue-600 mb-4">
+                        🎯 Diamond Target ({totalDiamond}/{targetData?.target?.targetDiamond})
+                    </h2>
+                    <ResponsiveContainer width="100%" height={300}>
+                        <PieChart>
+                            <Pie
+                                data={getDiamondData(totalDiamond, targetData?.target?.targetDiamond)}
+                                dataKey="value"
+                                cx="50%"
+                                cy="50%"
+                                outerRadius={100}
+                                label
+                            >
+                                <Cell fill="#1E90FF" /> {/* Blue color for Diamond */}
+                                <Cell fill="#10B981" />
+                            </Pie>
+                            <Tooltip />
+                            <Legend
+                                verticalAlign="bottom"
+                                iconType="circle"
+                                formatter={(value, entry, index) => (
+                                    <span className={`text-sm ${COLORS[index] === '#EF4444' ? 'text-red-600' : 'text-green-600'}`}>
+                                        {value}
+                                    </span>
+                                )}
+                            />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </motion.div>
             </div>
 
             {/* PL and CL charts */}
@@ -196,7 +219,7 @@ const TargetBalanceChart = () => {
                     titleColor="green"
                 />
             </div>
-        </div>
+        </motion.div>
     );
 };
 
