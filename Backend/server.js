@@ -14,14 +14,16 @@ const editUser = require("./routes/editUser");
 const targetUpdateRow=require("./routes/targetUpdateRow")
 const CounterData=require('./routes/CounterData')
 const googleSheet=require('./routes/googleSheet')
+const dotenv=require("dotenv")
 
 const cors = require("cors");
+dotenv.config()
 
 connectDB();
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173", // Sirf is origin ko allow karega
+  origin: `${process.env.forntend}`, // Sirf is origin ko allow karega
   credentials: true, // Cookies allow karne ke liye,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 }));

@@ -6,6 +6,10 @@ import img from "../assets/pexels-donaldtong94-23273.jpg";
 import logo from ".././assets/Logo.png";
 
 const Login = () => {
+  
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -14,7 +18,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${apiUrl}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
