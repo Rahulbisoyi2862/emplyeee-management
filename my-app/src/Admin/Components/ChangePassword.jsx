@@ -3,7 +3,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/Logo.png";
 import img from "../../assets/pexels-donaldtong94-23273.jpg";
 
 const ChangePassword = () => {
