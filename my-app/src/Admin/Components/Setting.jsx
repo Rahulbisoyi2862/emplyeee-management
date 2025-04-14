@@ -9,13 +9,16 @@ const Setting = () => {
   const [selectedTab, setSelectedTab] = useState("");
   const [sheetUrl, setSheetUrl] = useState("");
 
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submitted Google Sheet URL:", sheetUrl);
 
     async function postData() {
       try {
-        const response = await fetch('http://localhost:5000/api/google/sheet', {
+        const response = await fetch(`${apiUrl}/api/google/sheet`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

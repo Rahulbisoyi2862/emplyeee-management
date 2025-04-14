@@ -5,6 +5,10 @@ import { ToastContainer, toast } from "react-toastify";
 import targetImage from "../../assets/janos-venczak-EVR26myHl3A-unsplash.jpg"; // Add your image path
 
 const TargetForm = () => {
+
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -33,7 +37,7 @@ const TargetForm = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/target/employee/${id}`, {
+      const response = await fetch(`${apiUrl}/api/target/employee/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

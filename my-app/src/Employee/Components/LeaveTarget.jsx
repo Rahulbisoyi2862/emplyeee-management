@@ -9,12 +9,15 @@ const LeaveTarget = () => {
 
   const userId = users?.user?.id;
 
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   useEffect(() => {
     const fetchLeaveData = async () => {
       try {
         if (!userId) return;
 
-        const response = await fetch(`http://localhost:5000/api/leave/id/get/${userId}`, {
+        const response = await fetch(`${apiUrl}/api/leave/id/get/${userId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

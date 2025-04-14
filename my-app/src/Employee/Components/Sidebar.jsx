@@ -8,7 +8,8 @@ import ProfileModal from "./ProfileModal"; // ProfileModal ko import kar rahe ha
 const Sidebar = ({ context, isOpen, toggleSidebar }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal open/close state
-
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
   const imgPath = context.users.user.profileImg;
   const user = context.users.user;
   const uName = context.users.user.name
@@ -32,7 +33,7 @@ const Sidebar = ({ context, isOpen, toggleSidebar }) => {
         className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-red-200 to-white rounded-xl cursor-pointer hover:shadow-md transition mb-6"
       >
         <img
-          src={imgPath && imgPath.trim() !== "" ? `http://localhost:5000/uploads/${imgPath}` : logo}
+          src={imgPath && imgPath.trim() !== "" ? `${apiUrl}/uploads/${imgPath}` : logo}
           alt="Profile"
           className="w-10 h-10 rounded-full object-cover"
         />
@@ -98,7 +99,7 @@ const Sidebar = ({ context, isOpen, toggleSidebar }) => {
             }
           >
             <CalendarDays size={20} />
-            Leave Target
+            Leave Management
           </NavLink>
         </ul>
       </nav>

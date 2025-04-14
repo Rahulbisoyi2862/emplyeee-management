@@ -7,11 +7,12 @@ const SelectTarget = () => {
   const [loading, setLoading] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState("");
-
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
   useEffect(() => {
     async function getUsers() {
       try {
-        const response = await fetch("http://localhost:5000/api/user/data", {
+        const response = await fetch(`${apiUrl}/api/user/data`, {
           method: "GET",
           credentials: "include",
         });

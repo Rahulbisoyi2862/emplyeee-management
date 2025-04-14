@@ -9,13 +9,17 @@ import {
 } from "recharts";
 import { ChevronDown } from "lucide-react";
 
+// console.log(process.env.DOMIN)
+
 const COLORS = ["#ef4444", "#10b981", "#f59e0b", "#3b82f6"];
 
 const DashboardPage = () => {
+    const apiUrl =  import.meta.env.VITE_DOMIN
+console.log(apiUrl)
     // Current month and year dynamically calculated
     const currentDate = new Date();
-    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");  // Get current month (01-12)
-    const currentYear = String(currentDate.getFullYear());  // Get current year (e.g., 2025)
+    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");  
+    const currentYear = String(currentDate.getFullYear()); 
 
     const [fetchedItemData, setFetchedItemData] = useState({
         goldMonthly: { achieved: 0, target: 0 },
@@ -39,7 +43,7 @@ const DashboardPage = () => {
     const fetchCounterData = async (counterName, month, year) => {
         try {
             const response = await fetch(
-                `http://localhost:5000/api/counter-data/${counterName}?month=${month}&year=${year}`
+                `${apiUrl}/api/counter-data/${counterName}?month=${month}&year=${year}`
             );
             const data = await response.json();
 
@@ -81,7 +85,7 @@ const DashboardPage = () => {
         const fetchStoreData = async () => {
             try {
                 const response = await fetch(
-                    `http://localhost:5000/api/store-data?month=${selectedMonth}&year=${selectedYear}`
+                    `${apiUrl}/api/store-data?month=${selectedMonth}&year=${selectedYear}`
                 );
                 const data = await response.json();
                 setTotalStore(data);

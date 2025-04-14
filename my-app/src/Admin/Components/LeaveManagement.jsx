@@ -5,9 +5,12 @@ const LeaveManagement = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/leave/allData");
+      const res = await fetch(`${apiUrl}/api/leave/allData`);
       const data = await res.json();
 
       if (res.ok && data.userT && Array.isArray(data.userT)) {
@@ -27,7 +30,7 @@ const LeaveManagement = () => {
   const handleActionClick = async (action, id) => {
     const payload = { action, id };
     try {
-      const res = await fetch("http://localhost:5000/api/leave/action", {
+      const res = await fetch(`${apiUrl}/api/leave/action`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

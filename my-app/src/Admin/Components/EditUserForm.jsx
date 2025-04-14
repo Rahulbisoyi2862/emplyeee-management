@@ -7,6 +7,10 @@ const roles = ["user", "subadmin", "admin"];
 const MAX_FILE_SIZE = 150 * 1024; // 150KB
 
 const EditUserForm = () => {
+
+    const apiUrl =  import.meta.env.VITE_DOMIN
+    console.log(apiUrl)
+
     const { id } = useParams();
     const [formData, setFormData] = useState({
         name: "",
@@ -102,7 +106,7 @@ const EditUserForm = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/api/user/edit/${id}`, {
+            const response = await fetch(`${apiUrl}/api/user/edit/${id}`, {
                 method: 'POST',
                 body: formDataToSend,
             });

@@ -24,11 +24,14 @@ const StockDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   // Fetch the sheet URL from the backend on component mount
   useEffect(() => {
     const fetchSheetUrl = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/google/get");
+        const response = await fetch(`${apiUrl}/api/google/get`);
 
         if (response.ok) {
           const data = await response.json();

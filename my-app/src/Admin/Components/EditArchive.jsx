@@ -15,6 +15,9 @@ import { PlusCircle } from "lucide-react";
 const COLORS = ["#10b981", "#f87171"];
 
 const ChartPage = () => {
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -34,7 +37,7 @@ const ChartPage = () => {
   // 👉 Fetch chart data from backend
   const fetchChartData = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/target/chart-data/${id}`);
+      const res = await fetch(`${apiUrl}/api/target/chart-data/${id}`);
       const json = await res.json();
       if (json.success && Array.isArray(json.data)) {
         setData(json.data[0]);
@@ -85,7 +88,7 @@ const ChartPage = () => {
   // 💾 Submit edit
   const handleEditSubmit = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/editRow/edit-archive/${id}`, {
+      const res = await fetch(`${apiUrl}/api/editRow/edit-archive/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

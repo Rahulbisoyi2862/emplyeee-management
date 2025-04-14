@@ -8,11 +8,12 @@ const EmployeeDetail = () => {
   const [previewImg, setPreviewImg] = useState(null); // For image preview modal
 
   useEffect(() => {
-
+    const apiUrl =  import.meta.env.VITE_DOMIN
+    console.log(apiUrl)
 
     async function fetchEmployee() {
       try {
-        const response = await fetch(`http://localhost:5000/api/user/fullData/${id}`, {
+        const response = await fetch(`${apiUrl}/api/user/fullData/${id}`, {
           method: "GET",
           credentials: "include",
         });
@@ -31,10 +32,10 @@ const EmployeeDetail = () => {
   // Function to render image
   const renderImage = (fileName) => (
     <img
-      src={`http://localhost:5000/uploads/${fileName}`}
+      src={`${apiUrl}/uploads/${fileName}`}
       alt="Document"
       className="w-24 h-24 object-cover rounded-xl border border-red-700 shadow cursor-pointer"
-      onClick={() => setPreviewImg(`http://localhost:5000/uploads/${fileName}`)} // Set preview image on click
+      onClick={() => setPreviewImg(`${apiUrl}/uploads/${fileName}`)} // Set preview image on click
     // onError={(e) => (e.target.src = "https://via.placeholder.com/96x96?text=No+Image")}
     />
   );

@@ -5,6 +5,9 @@ import logo from "../../assets/leav.jpg"; // Ensure this path is correct
 const MAX_FILE_SIZE = 150 * 1024; // 150KB
 
 const UserCreate = () => {
+
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
   const panRef = useRef();
   const adharRef = useRef();
   const otherRef = useRef();
@@ -79,7 +82,7 @@ const UserCreate = () => {
     });
 
     try {
-      const response = await fetch("http://localhost:5000/api/user/create", {
+      const response = await fetch(`${apiUrl}/api/user/create`, {
         method: "POST",
         credentials: "include",
         body: form,

@@ -5,6 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import leaveImage from '../../assets/leav.jpg'; // Replace with your image path
 
 const LeaveApplicationForm = () => {
+
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
   const navigate = useNavigate();
   const context = useOutletContext();
 
@@ -49,7 +52,7 @@ const LeaveApplicationForm = () => {
     else updatedPl -= appliedDays;
 
     try {
-      const response = await fetch("http://localhost:5000/api/leave/status", {
+      const response = await fetch(`${apiUrl}/api/leave/status`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -2,11 +2,15 @@ import React from "react";
 import logo from "../../assets/Logo.png";
 import { useNavigate } from "react-router-dom";
 const Header = () => {
+
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       // Logout API call
-      const response = await fetch("http://localhost:5000/api/auth/logout/user", {
+      const response = await fetch(`${apiUrl}/api/auth/logout/user`, {
         method: "GET",
         credentials: "include", // Include cookies with the request
       });

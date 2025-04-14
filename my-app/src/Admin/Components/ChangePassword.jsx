@@ -7,6 +7,10 @@ import logo from "../../assets/logo.png";
 import img from "../../assets/pexels-donaldtong94-23273.jpg";
 
 const ChangePassword = () => {
+
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -48,7 +52,7 @@ const ChangePassword = () => {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/password/change`, {
+      const res = await fetch(`${apiUrl}/api/password/change`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

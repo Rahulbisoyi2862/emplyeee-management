@@ -11,9 +11,12 @@ const EmployeeTarget = () => {
   const [targetToDelete, setTargetToDelete] = useState(null);
   const navigate = useNavigate();
 
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   const fetchTargets = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/target/get-allTarget");
+      const response = await fetch(`${apiUrl}/api/target/get-allTarget`);
       const data = await response.json();
       if (data.success) {
         const sortedTargets = data.targets.sort(
@@ -37,7 +40,7 @@ const EmployeeTarget = () => {
 
   const handleDelete = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/editRow/delete/${targetToDelete}`, {
+      const res = await fetch(`${apiUrl}/api/editRow/delete/${targetToDelete}`, {
         method: "DELETE",
       });
       const data = await res.json();

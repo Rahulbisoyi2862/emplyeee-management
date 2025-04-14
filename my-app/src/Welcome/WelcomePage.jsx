@@ -1,7 +1,9 @@
 import React from "react";
 import logo from "../assets/Logo.png"; // 👈 yahan apna logo path lagao
+import { useNavigate } from "react-router";
 
 const WelcomePage = () => {
+    const navigate = useNavigate()
     return (
         <div className="min-h-screen  flex flex-col items-center justify-center p-6">
             {/* Header with Logo */}
@@ -28,9 +30,7 @@ const WelcomePage = () => {
                 <p className="text-gray-500 mt-4">
                     Explore our platform, manage your work efficiently, and grow with us.
                 </p>
-                <button className="mt-6 px-6 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700 transition duration-200">
-                    Get Started
-                </button>
+
             </div>
         </div>
     );

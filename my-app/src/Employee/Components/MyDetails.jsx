@@ -6,6 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { motion } from 'framer-motion';  // Import motion from Framer Motion
 
 const MyDetails = () => {
+
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   const context = useOutletContext();
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -44,7 +48,7 @@ const MyDetails = () => {
     formData.append("id", user.id);
 
     try {
-      const response = await fetch('http://localhost:5000/api/upload/profile', {
+      const response = await fetch(`${apiUrl}/api/upload/profile`, {
         method: 'POST',
         body: formData,
       });
@@ -176,9 +180,9 @@ const MyDetails = () => {
           >
             <FileText className="text-yellow-500" size={24} />
             <span className="font-medium text-gray-800">Aadhar:</span>
-            <a href={`http://localhost:5000/uploads/${user.adharCard}`} target="_blank" rel="noopener noreferrer">
+            <a href={`${apiUrl}/uploads/${user.adharCard}`} target="_blank" rel="noopener noreferrer">
               <motion.img
-                src={`http://localhost:5000/uploads/${user.adharCard}`}
+                src={`${apiUrl}/uploads/${user.adharCard}`}
                 alt="Aadhar Card"
                 className="h-20 w-20 object-cover mt-2"
                 initial={{ opacity: 0 }}
@@ -197,9 +201,9 @@ const MyDetails = () => {
           >
             <CreditCard className="text-orange-500" size={24} />
             <span className="font-medium text-gray-800">PAN Card:</span>
-            <a href={`http://localhost:5000/uploads/${user.panCard}`} target="_blank" rel="noopener noreferrer">
+            <a href={`${apiUrl}/uploads/${user.panCard}`} target="_blank" rel="noopener noreferrer">
               <motion.img
-                src={`http://localhost:5000/uploads/${user.panCard}`}
+                src={`${apiUrl}/uploads/${user.panCard}`}
                 alt="PAN Card"
                 className="h-20 w-20 object-cover mt-2"
                 initial={{ opacity: 0 }}

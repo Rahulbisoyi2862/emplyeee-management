@@ -6,7 +6,8 @@ import { motion } from 'framer-motion'; // Import Framer Motion for animations
 const MyTarget = () => {
   const context = useOutletContext();
   const [targetData, setTargetData] = useState(null);
-
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
   if (!context || !context.users || !context.users.user) {
     return <p className="text-center text-red-700 text-lg animate-pulse">Loading user data...</p>;
   }
@@ -16,7 +17,7 @@ const MyTarget = () => {
   useEffect(() => {
     const fetchTarget = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/target/myDtl/${user.id}`);
+        const response = await fetch(`${apiUrl}/api/target/myDtl/${user.id}`);
         const data = await response.json();
         setTargetData(data);
         console.log("🎯 Target fetched:", data);
@@ -100,7 +101,7 @@ const MyTarget = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
           >
-            <h3 className="text-3xl font-semibold text-gray-800 mb-6">Archives</h3>
+            <h3 className="text-3xl font-semibold text-gray-800 mb-6">Achives</h3>
             <table className="min-w-full table-auto border-collapse border border-gray-300">
               <thead>
                 <tr>

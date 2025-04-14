@@ -50,11 +50,14 @@ const TargetBalanceChart = () => {
     const context = useOutletContext();
     const { user } = context.users;
 
+    const apiUrl =  import.meta.env.VITE_DOMIN
+    console.log(apiUrl)
+
     // Fetch target data for the user
     useEffect(() => {
         const fetchTarget = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/target/myDtl/${user.id}`);
+                const response = await fetch(`${apiUrl}/api/target/myDtl/${user.id}`);
                 const data = await response.json();
                 setTargetData(data);
                 console.log("🎯 Target Data:", data);

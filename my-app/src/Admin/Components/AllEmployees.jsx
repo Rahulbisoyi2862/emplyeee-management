@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AllEmployees = () => {
+
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   const [allemp, setAllEmp] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,7 +15,7 @@ const AllEmployees = () => {
   useEffect(() => {
     async function getUsers() {
       try {
-        const response = await fetch("http://localhost:5000/api/user/data", {
+        const response = await fetch(`${apiUrl}/api/user/data`, {
           method: "GET",
           credentials: "include",
         });
@@ -32,7 +36,7 @@ const AllEmployees = () => {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/user/delete/${id}`, {
+      const res = await fetch(`${apiUrl}/api/user/delete/${id}`, {
         method: "DELETE",
         credentials: "include",
       });

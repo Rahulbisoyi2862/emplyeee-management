@@ -5,6 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import jLogo from "../../assets/janos-venczak-EVR26myHl3A-unsplash.jpg";
 
 const AddProgressPage = () => {
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
+
   const { id } = useParams();
   const navigate = useNavigate(); // ⬅️ for navigation
 
@@ -26,7 +29,7 @@ const AddProgressPage = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`http://localhost:5000/api/target/add-daily-target/${id}`, {
+      const res = await fetch(`${apiUrl}/api/target/add-daily-target/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

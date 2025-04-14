@@ -4,7 +4,8 @@ import { X } from "lucide-react";
 
 const ProfileModal = ({ isOpen, toggleModal, user }) => {
   if (!isOpen) return null; // Agar modal open nahi hai, toh kuch bhi na dikhaye
-
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
   return (
     <div
       className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50"
@@ -16,7 +17,7 @@ const ProfileModal = ({ isOpen, toggleModal, user }) => {
       >
         <div className="flex flex-col items-center">
           <img
-            src={`http://localhost:5000/uploads/${user.profileImg}`}
+            src={`${apiUrl}/uploads/${user.profileImg}`}
             alt="Profile"
             className="w-24 h-24 rounded-full object-cover mb-4"
           />

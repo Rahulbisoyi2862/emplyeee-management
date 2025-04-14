@@ -4,11 +4,12 @@ import { motion } from "framer-motion"; // Import Framer Motion
 
 const Leaderboard = () => {
   const [employees, setEmployees] = useState([]);
-
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
   useEffect(() => {
     const fetchTopEmployees = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/target/topThree");
+        const response = await fetch(`${apiUrl}/api/target/topThree`);
         const data = await response.json();
         setEmployees(data);
         console.log("Top Employees:", data);
@@ -50,7 +51,7 @@ const Leaderboard = () => {
                 <div className="w-16 h-16 rounded-full bg-gray-300 overflow-hidden flex justify-center items-center">
                   {emp.profileImg ? (
                     <img
-                      src={`http://localhost:5000/uploads/${emp.profileImg}`}
+                      src={`${apiUrl}/uploads/${emp.profileImg}`}
                       alt={emp.name}
                       className="w-full h-full object-cover"
                     />

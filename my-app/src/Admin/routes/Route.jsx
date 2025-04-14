@@ -59,6 +59,7 @@ function AppRouter() {
       path: "/employee",
       element: <ParentEmployee />,
       children: [
+        {path:"",element:<WelcomePage/>},
         { path:'BalanceCharts',element:<BalanceCharts/>},
         { path: "Leaderboard", element: <Leaderboard /> },
         { path: "mydetails", element: <MyDetails /> },
