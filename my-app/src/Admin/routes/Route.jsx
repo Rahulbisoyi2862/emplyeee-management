@@ -29,12 +29,14 @@ import EditUserForm from "../Components/EditUserForm";
 import BalanceCharts from "../../Employee/Components/BalanceCharts";
 import StockDetailPage from "../Components/StockDetailPage";
 import AddProgressPage from "../Components/AddProgressPage";
+import BtnPage from "../../rootBtn/BtnPage";
 
 function AppRouter() {
 
   const router = createBrowserRouter([
+    {path:"/",element:<BtnPage/>},
     {
-      path: "/",
+      path: "/admin",
       element:<Parent/>,
       children: [
         {path:"",element:<WelcomePage/>},

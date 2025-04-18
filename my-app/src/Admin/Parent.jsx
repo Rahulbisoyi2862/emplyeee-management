@@ -6,6 +6,7 @@ import { Outlet } from "react-router";
 import ErrorPage from "./Components/ErrorPage";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import BtnPage from "../rootBtn/BtnPage";
 
 const Parent = () => {
   const [selectedTab, setSelectedTab] = useState("employeeTarget");
@@ -41,7 +42,7 @@ const Parent = () => {
     getUsers();
   }, []);
 
-  if (loading || unauthorized) return <ErrorPage />;
+  if (loading || unauthorized) return <ErrorPage/>;
 
   return (
     <div className="flex flex-col h-screen bg-gray-100 text-black">

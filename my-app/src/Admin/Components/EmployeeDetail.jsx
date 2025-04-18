@@ -7,9 +7,9 @@ const EmployeeDetail = () => {
   const [employee, setEmployee] = useState(null);
   const [previewImg, setPreviewImg] = useState(null); // For image preview modal
 
+  const apiUrl =  import.meta.env.VITE_DOMIN
+  console.log(apiUrl)
   useEffect(() => {
-    const apiUrl =  import.meta.env.VITE_DOMIN
-    console.log(apiUrl)
 
     async function fetchEmployee() {
       try {

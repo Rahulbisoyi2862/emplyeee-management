@@ -271,8 +271,7 @@ const UserCreate = () => {
                   className="p-3 border border-gray-300 rounded-md w-full focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Select Role</option>
-                  <option value="user">User</option>
-                  <option value="subadmin">Sub Admin</option>
+                  <option value="user">emplyee</option>
                   <option value="admin">Admin</option>
                 </select>
               </div>

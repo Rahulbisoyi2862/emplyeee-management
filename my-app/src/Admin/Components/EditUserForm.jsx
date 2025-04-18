@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const roles = ["user", "subadmin", "admin"];
+const roles = ["user", "admin"];
 const MAX_FILE_SIZE = 150 * 1024; // 150KB
 
 const EditUserForm = () => {

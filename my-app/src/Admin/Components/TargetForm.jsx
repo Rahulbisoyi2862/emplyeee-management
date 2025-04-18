@@ -58,7 +58,7 @@ const TargetForm = () => {
       }
 
       toast.success("✅ Target created successfully!");
-      navigate("/employee-target");
+      navigate("/admin/employee-target");
 
     } catch (error) {
       console.error("❌ Error:", error);

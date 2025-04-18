@@ -91,7 +91,7 @@ const EmployeeTarget = () => {
             <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
               <button
                 className="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100"
-                onClick={() => navigate("SelectTarget")}
+                onClick={() => navigate("/admin/employee-target/SelectTarget")}
               >
                 Select Target
               </button>
@@ -162,7 +162,7 @@ const EmployeeTarget = () => {
                 <div className="flex justify-end gap-2">
                   <button
                     className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md"
-                    onClick={() => navigate(`/employee-target/${target._id}`)}
+                    onClick={() => navigate(`/admin/employee-target/${target._id}`)}
                   >
                     Edit
                   </button>

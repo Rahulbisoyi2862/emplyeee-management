@@ -11,10 +11,10 @@ const passwordChange = require("./routes/passwordChange")
 const leaveTarget = require("./routes/leaveTarget");
 const profilePhoto = require("./routes/profilePhoto");
 const editUser = require("./routes/editUser");
-const targetUpdateRow=require("./routes/targetUpdateRow")
-const CounterData=require('./routes/CounterData')
-const googleSheet=require('./routes/googleSheet')
-const dotenv=require("dotenv")
+const targetUpdateRow = require("./routes/targetUpdateRow")
+const CounterData = require('./routes/CounterData')
+const googleSheet = require('./routes/googleSheet')
+const dotenv = require("dotenv")
 
 const cors = require("cors");
 dotenv.config()
@@ -23,8 +23,8 @@ connectDB();
 const app = express();
 
 app.use(cors({
-  origin: `${process.env.forntend}`, // Sirf is origin ko allow karega
-  credentials: true, // Cookies allow karne ke liye,
+  origin: `${process.env.forntend}`,
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
 }));
 
@@ -44,9 +44,9 @@ app.use("/api/password/", passwordChange)
 app.use("/api/leave", leaveTarget)
 app.use("/api/upload", profilePhoto)
 app.use("/api/user", editUser)
-app.use("/api/editRow",targetUpdateRow)
-app.use('/api',CounterData)
-app.use("/api/google",googleSheet)
+app.use("/api/editRow", targetUpdateRow)
+app.use('/api', CounterData)
+app.use("/api/google", googleSheet)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

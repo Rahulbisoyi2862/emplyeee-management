@@ -145,13 +145,13 @@ const AllEmployees = () => {
                       <td className="p-3 border border-red-700">
                         <div className="flex gap-2">
                           <button
-                            onClick={() => navigate(`/AllEmployees/${employee.id}`)}
+                            onClick={() => navigate(`/admin/AllEmployees/${employee.id}`)}
                             className="bg-red-700 text-white font-semibold px-4 py-2 rounded-md transition hover:bg-red-800"
                           >
                             View
                           </button>
                           <button
-                            onClick={() => navigate(`/edit-employee/${employee.id}`)}
+                            onClick={() => navigate(`/admin/edit-employee/${employee.id}`)}
                             className="bg-green-600 text-white px-4 py-2 rounded-md transition hover:bg-green-700"
                           >
                             Edit

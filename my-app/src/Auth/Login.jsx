@@ -30,7 +30,7 @@ const Login = () => {
       const data = await res.json();
 
       if (res.status === 200) {
-        navigate("/");
+        navigate("/admin");
         setLoading(true);
       }
 

@@ -178,7 +178,7 @@ const ChartPage = () => {
       <div className="flex justify-center">
         <button
           className="flex items-center gap-2 px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl shadow"
-          onClick={() => navigate(`/AddProgressPage/${id}`)}
+          onClick={() => navigate(`/admin/AddProgressPage/${id}`)}
         >
           <PlusCircle size={20} />
           Add Progress

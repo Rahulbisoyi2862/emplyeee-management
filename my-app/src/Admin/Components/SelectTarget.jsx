@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router";
 
 const SelectTarget = () => {
   const navigate = useNavigate();
   const [allemp, setAllEmp] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const location = useLocation();
+  console.log("Current path:", location.pathname);
   const [searchQuery, setSearchQuery] = useState("");
   const apiUrl =  import.meta.env.VITE_DOMIN
   console.log(apiUrl)
@@ -68,7 +70,7 @@ const SelectTarget = () => {
                   <td className="p-3 border-b border-gray-300">{employee.email}</td>
                   <td className="p-3 border-b border-gray-300">
                     <button
-                      onClick={() => navigate(`/employee-target/SelectTarget/TargetForm/${employee.id}`)} // Navigate with employee ID
+                      onClick={() => navigate(`/admin/employee-target/SelectTarget/TargetForm/${employee.id}`)} // Navigate with employee ID
                       className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-md shadow-md transition"
                     >
                       ➕ Add
@@ -103,7 +105,7 @@ const SelectTarget = () => {
                 <span>{employee.email}</span>
               </div>
               <button
-                onClick={() => navigate(`/employee-target/SelectTarget/TargetForm/${employee.id}`)} // Navigate with employee ID
+                onClick={() => navigate(`employee-target/SelectTarget/TargetForm/${employee.id}`)} // Navigate with employee ID
                 className="mt-4 w-full bg-red-700 hover:bg-red-800 text-white py-2 rounded-md shadow-md transition"
               >
                 ➕ Add
