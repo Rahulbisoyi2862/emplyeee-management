@@ -42,7 +42,7 @@ const Sidebar = ({ setSelectedTab, isOpen, toggleSidebar }) => {
         <NavLink
           to="DashboardPage"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 rounded-xl cursor-pointer hover:bg-gray-100 ${isActive ? "text-red-500 font-semibold bg-gray-100" : "text-gray-700"
+            ` hidden flex items-center gap-3 px-6 py-3 rounded-xl cursor-pointer hover:bg-gray-100 ${isActive ? "text-red-500 font-semibold bg-gray-100" : "text-gray-700"
             }`
           }
           onClick={() => setSelectedTab("dashboard")}
@@ -78,7 +78,7 @@ const Sidebar = ({ setSelectedTab, isOpen, toggleSidebar }) => {
         <NavLink
           to="employee-target"
           className={({ isActive }) =>
-            `flex items-center gap-3 px-6 py-3 rounded-xl cursor-pointer hover:bg-gray-100 ${isActive ? "text-red-500 font-semibold bg-gray-100" : "text-gray-700"
+            ` hidden flex items-center gap-3 px-6 py-3 rounded-xl cursor-pointer hover:bg-gray-100 ${isActive ? "text-red-500 font-semibold bg-gray-100" : "text-gray-700"
             }`
           }
           onClick={() => setSelectedTab("employeeTarget")}
