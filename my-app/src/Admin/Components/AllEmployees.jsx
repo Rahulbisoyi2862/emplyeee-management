@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AllEmployees = () => {
-
-  const apiUrl =  import.meta.env.VITE_DOMIN
-  console.log(apiUrl)
+  const apiUrl = import.meta.env.VITE_DOMIN;
 
   const [allemp, setAllEmp] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -27,16 +29,17 @@ const AllEmployees = () => {
         setLoading(false);
       }
     }
-
     getUsers();
   }, []);
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this employee?");
-    if (!confirmDelete) return;
+  const handleDelete = (id) => {
+    setDeleteId(id);
+    setIsModalOpen(true);
+  };
 
+  const handleDeleteConfirm = async () => {
     try {
-      const res = await fetch(`${apiUrl}/api/user/delete/${id}`, {
+      const res = await fetch(`${apiUrl}/api/user/delete/${deleteId}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -44,13 +47,17 @@ const AllEmployees = () => {
       const result = await res.json();
 
       if (res.ok) {
-        setAllEmp((prev) => prev.filter((emp) => emp.id !== id));
-        alert("Employee deleted successfully");
+        setAllEmp((prev) => prev.filter((emp) => emp.id !== deleteId));
+        toast.success("Employee deleted successfully");
       } else {
-        alert(result.message || "Error deleting employee");
+        toast.error(result.message || "Error deleting employee");
       }
     } catch (err) {
       console.error("Delete error:", err.message);
+      toast.error("Something went wrong");
+    } finally {
+      setIsModalOpen(false);
+      setDeleteId(null);
     }
   };
 
@@ -62,10 +69,11 @@ const AllEmployees = () => {
   );
 
   return (
-    <div className="p-4 min-h-screen bg-white text-gray-900">
+    <div className="p-4 min-h-screen bg-white text-gray-900 relative">
+      <ToastContainer />
+
       <h1 className="text-3xl font-semibold mb-6 text-red-700">All Employees</h1>
 
-      {/* Search Bar */}
       <div className="mb-6">
         <input
           type="text"
@@ -76,7 +84,6 @@ const AllEmployees = () => {
         />
       </div>
 
-      {/* Loading */}
       {loading ? (
         <div className="flex justify-center items-center min-h-[50vh]">
           <div className="animate-spin h-8 w-8 border-4 border-green-500 border-t-transparent rounded-full"></div>
@@ -121,7 +128,7 @@ const AllEmployees = () => {
             )}
           </div>
 
-          {/* Desktop Table */}
+          {/* Desktop View */}
           <div className="hidden sm:block">
             <table className="w-full border-collapse border border-red-700">
               <thead className="bg-red-700 text-white">
@@ -135,10 +142,7 @@ const AllEmployees = () => {
               <tbody>
                 {filteredEmployees.length > 0 ? (
                   filteredEmployees.map((employee) => (
-                    <tr
-                      key={employee.id}
-                      className="hover:bg-gray-100 transition duration-200"
-                    >
+                    <tr key={employee.id} className="hover:bg-gray-100 transition duration-200">
                       <td className="p-3 border border-red-700">{employee.id}</td>
                       <td className="p-3 border border-red-700">{employee.name}</td>
                       <td className="p-3 border border-red-700">{employee.email}</td>
@@ -156,7 +160,12 @@ const AllEmployees = () => {
                           >
                             Edit
                           </button>
-                      
+                          <button
+                            onClick={() => handleDelete(employee.id)}
+                            className="bg-gray-800 text-white px-4 py-2 rounded-md transition hover:bg-black"
+                          >
+                            Delete
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -170,6 +179,30 @@ const AllEmployees = () => {
                 )}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* 🔴 Delete Confirmation Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] max-w-sm">
+            <h2 className="text-xl font-bold mb-4 text-red-700">Confirm Delete</h2>
+            <p className="mb-6">Are you sure you want to delete this employee?</p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteConfirm}
+                className="px-4 py-2 bg-red-700 text-white rounded hover:bg-red-800"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

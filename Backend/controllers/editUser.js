@@ -9,7 +9,7 @@ const editUser = async (req, res) => {
         const files = req.files;
 
         // 1. Check all text fields are present
-        if (!name || !email || !phone || !role || !password || !pl || !cl || !position) {
+        if (!name || !email || !phone || !role || !password || !position) {
             return res.status(400).json({ message: "All fields are required." });
         }
 
